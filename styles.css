@@ -1,0 +1,284 @@
+/* Estilos para index.html con un estilo "vintage" y diseño responsive */
+
+/* General */
+body {
+  font-family: "Georgia", serif;
+  line-height: 1.8;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fdf8e1;
+  color: #5a4a3f;
+}
+
+/* Encabezado */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d2b48c;
+  color: #3e2e23;
+  padding: 15px 20px;
+  border-bottom: 3px solid #8b5a2b;
+}
+
+header .logo {
+  font-size: 2em;
+  font-weight: bold;
+  font-family: "Courier New", monospace;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li {
+  margin-left: 20px;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: #3e2e23;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+  color: #8b5a2b;
+}
+
+/* Hero Section */
+#hero {
+  text-align: center;
+  background: url('https://via.placeholder.com/1920x600/decfad') no-repeat center center/cover;
+  color: #3e2e23;
+  padding: 100px 20px;
+  border-bottom: 5px solid #8b5a2b;
+}
+
+#hero h1 {
+  font-size: 2.8em;
+  margin-bottom: 15px;
+  font-family: "Courier New", monospace;
+}
+
+#hero p {
+  font-size: 1.4em;
+  margin-bottom: 25px;
+}
+
+#hero .buttons .btn {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #8b5a2b;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-family: "Georgia", serif;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+#hero .buttons .btn:hover {
+  background-color: #5a4a3f;
+}
+
+#hero .btn-secondary {
+  background-color: #5a4a3f;
+}
+
+#hero .btn-secondary:hover {
+  background-color: #3e2e23;
+}
+
+/* Secciones */
+section {
+  padding: 50px 20px;
+  text-align: center;
+  background-color: #f6f1df;
+  border-bottom: 3px solid #d2b48c;
+}
+
+section h2 {
+  font-size: 2.2em;
+  margin-bottom: 20px;
+  font-family: "Georgia", serif;
+}
+
+section p {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+  color: #5a4a3f;
+}
+
+section ul {
+  list-style: square;
+  padding: 0;
+  color: #3e2e23;
+}
+
+section ul li {
+    list-style: none;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+/* Formulario */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #fffbe6;
+  padding: 15px;
+  border: 2px solid #d2b48c;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form input,
+form textarea {
+  width: 96%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 2px solid #8b5a2b;
+  border-radius: 6px;
+  background-color: #fffbe6;
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  color: #5a4a3f;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+form input:focus,
+form textarea:focus {
+  box-shadow: 0 0 8px rgba(139, 90, 43, 0.5);
+  border-color: #5a4a3f;
+  outline: none;
+}
+
+form button {
+  background-color: #8b5a2b;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #5a4a3f;
+}
+
+/* Pie de página */
+footer {
+  background-color: #d2b48c;
+  color: #3e2e23;
+  text-align: center;
+  padding: 20px 0;
+  border-top: 3px solid #8b5a2b;
+}
+
+footer .social a {
+  color: #8b5a2b;
+  margin: 0 5px;
+  text-decoration: none;
+  font-family: "Courier New", monospace;
+  transition: color 0.3s;
+}
+
+footer .social a:hover {
+  color: #5a4a3f;
+}
+
+section {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #hero h1 {
+    font-size: 2em;
+  }
+
+  #hero p {
+    font-size: 1.2em;
+  }
+
+  #hero .buttons .btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+
+  section h2 {
+    font-size: 1.8em;
+  }
+
+  section p {
+    font-size: 1em;
+  }
+
+  form {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 10px 15px;
+  }
+
+  header .logo {
+    font-size: 1.5em;
+  }
+
+  header nav ul li {
+    margin-left: 0;
+  }
+
+  #hero {
+    padding: 60px 15px;
+  }
+
+  #hero h1 {
+    font-size: 1.8em;
+  }
+
+  #hero p {
+    font-size: 1em;
+  }
+
+  #hero .buttons .btn {
+    padding: 8px 15px;
+    font-size: 0.8em;
+  }
+
+  section {
+    padding: 20px 15px;
+  }
+
+  form {
+    padding: 10px;
+  }
+}

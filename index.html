@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cooperativa de Viviendas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Encabezado -->
+  <header>
+    <div class="logo">Cooperativa XYZ</div>
+    <nav>
+      <ul>
+        <li><a href="#about">Quiénes Somos</a></li>
+        <li><a href="#register">Registro</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <h1>Construyamos juntos un futuro mejor</h1>
+    <p>Únete a nuestra cooperativa y sé parte del cambio.</p>
+    <div class="buttons">
+      <a href="#register" class="btn">Registrarse</a>
+      <a href="login.html" class="btn btn-secondary">Iniciar Sesión</a>
+    </div>
+  </section>
+
+  <!-- Sección de Información -->
+  <section id="about">
+    <h2>Sobre Nosotros</h2>
+    <p>Somos una cooperativa dedicada a la construcción de viviendas con un enfoque solidario y autogestionado.</p>
+    <ul>
+      <li>Acceso a viviendas asequibles.</li>
+      <li>Transparencia en la gestión.</li>
+      <li>Participación activa de los socios.</li>
+    </ul>
+  </section>
+
+  <!-- Formulario de Registro -->
+  <section id="register">
+    <h2>Regístrate</h2>
+    <form action="/api/usuarios/registro" method="POST">
+      <input type="text" name="nombre" placeholder="Tu Nombre" required>
+      <input type="email" name="email" placeholder="Tu Email" required>
+      <button type="submit" class="btn">Enviar</button>
+    </form>
+    <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>.</p>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contact">
+    <h2>Contacto</h2>
+    <p>Email: contacto@cooperativa.com | Teléfono: +598 1234 5678</p>
+    <form action="/api/contacto" method="POST">
+      <input type="text" name="nombre" placeholder="Tu Nombre" required>
+      <input type="email" name="email" placeholder="Tu Email" required>
+      <textarea name="mensaje" placeholder="Tu Mensaje" required></textarea>
+      <button type="submit" class="btn">Enviar</button>
+    </form>
+  </section>
+
+  <!-- Pie de Página -->
+  <footer>
+    <p>&copy; 2025 Cooperativa XYZ. Todos los derechos reservados.</p>
+    <div class="social">
+      <a href="#">Facebook</a> | <a href="#">Twitter</a>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll("section");
+
+  const revealSection = () => {
+    sections.forEach((section) => {
+      const sectionTop = section.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      // Si la sección está dentro del viewport
+      if (sectionTop < windowHeight - 100) {
+        section.classList.add("visible");
+      } else {
+        section.classList.remove("visible");
+      }
+    });
+  };
+
+  // Llamar a revealSection cuando se carga la página y al hacer scroll
+  revealSection();
+  window.addEventListener("scroll", revealSection);
+});
+
+  </script>
+</body>
+</html>
