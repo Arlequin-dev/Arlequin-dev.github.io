@@ -1,0 +1,1 @@
+SELECT * FROM `prueba`.`usuarios` LIMIT 1000;

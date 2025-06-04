@@ -43,11 +43,14 @@
   <!-- Formulario de Registro -->
   <section id="register">
     <h2>Regístrate</h2>
-    <form action="/api/usuarios/registro" method="POST">
-      <input type="text" name="nombre" placeholder="Tu Nombre" required>
-      <input type="email" name="email" placeholder="Tu Email" required>
-      <button type="submit" class="btn">Enviar</button>
-    </form>
+    <form id="miFormulario" method="post" action="api.php">
+    <input type="text" name="nombre" id="name" placeholder="Nombre">
+    <input type="email" name="mail" id="email" placeholder="name@gmail.com">
+    <input type="tel" name="phone" id="tel" placeholder="099...">
+    <input type="password" name="pswd" id="pwd" placeholder="*****">
+  
+    <button type="button" onclick="enviar()">Enviar</button>
+  </form>
     <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>.</p>
   </section>
 
@@ -58,8 +61,9 @@
     <form action="/api/contacto" method="POST">
       <input type="text" name="nombre" placeholder="Tu Nombre" required>
       <input type="email" name="email" placeholder="Tu Email" required>
+     
       <textarea name="mensaje" placeholder="Tu Mensaje" required></textarea>
-      <button type="submit" class="btn">Enviar</button>
+      <!--<button type="submit" class="btn" onclick="enviar()">Enviar</button>-->
     </form>
   </section>
 
@@ -70,6 +74,32 @@
       <a href="#">Facebook</a> | <a href="#">Twitter</a>
     </div>
   </footer>
+  <script>
+      function enviar() {
+      fetch('api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          pswd: document.getElementById("pwd").value, 
+          tel: document.getElementById("tel").value
+        })
+      })
+      .then(response => response.json())
+      .then(dato => {
+        document.getElementById("name").value = ""; 
+        document.getElementById("email").value = ""; 
+        document.getElementById("pwd").value = ""; 
+        alert("Datos enviados")
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("section");

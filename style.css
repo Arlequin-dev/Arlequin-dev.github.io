@@ -1,0 +1,68 @@
+body {
+  font-family: "Georgia", serif;
+  line-height: 1.8;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fdf8e1;
+  color: #5a4a3f;
+}
+
+section {
+  padding: 50px 20px;
+  text-align: center;
+  background-color: #f6f1df;
+  border-bottom: 3px solid #d2b48c;
+}
+
+section h2 {
+  font-size: 2.2em;
+  margin-bottom: 20px;
+  font-family: "Georgia", serif;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #fffbe6;
+  padding: 15px;
+  border: 2px solid #d2b48c;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form input,
+form textarea {
+  width: 96%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 2px solid #8b5a2b;
+  border-radius: 6px;
+  background-color: #fffbe6;
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  color: #5a4a3f;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+form input:focus,
+form textarea:focus {
+  box-shadow: 0 0 8px rgba(139, 90, 43, 0.5);
+  border-color: #5a4a3f;
+  outline: none;
+}
+
+form button {
+  background-color: #8b5a2b;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #5a4a3f;
+}

@@ -4,8 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingresar</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <section class="login">
+        <h2>Login</h2>
+        <form id="miFormulario" method="post" action="api.php">
+        <input type="email" name="mail" id="email" placeholder="usuariop@gmail.com">
+        <input type="password" name="pswd" id="pwd" placeholder="*****">
+  
+    <button type="button" onclick="enviar()">Enviar</button>
+  </form>
+    </section>
 </body>
+  <script>
+      function enviar() {
+      fetch('api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: document.getElementById("email").value,
+          pswd: document.getElementById("pwd").value, 
+        })
+      })
+      .then(response => response.json())
+      .then(dato => {
+        document.getElementById("email").value = ""; 
+        document.getElementById("pwd").value = ""; 
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
 </html>
