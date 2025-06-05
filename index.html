@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cooperativa de Viviendas</title>
   <link rel="stylesheet" href="styles.css">
+   <script src="https://kit.fontawesome.com/927dd3c386.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
   <!-- Encabezado -->
@@ -17,12 +19,14 @@
         <li><a href="#contact">Contacto</a></li>
       </ul>
     </nav>
+   <i class="fa-solid fa-circle-user fa-3x" id="usuario"></i>
   </header>
 
   <!-- Hero Section -->
   <section id="hero">
     <h1>Construyamos juntos un futuro mejor</h1>
     <p>Únete a nuestra cooperativa y sé parte del cambio.</p>
+    
     <div class="buttons">
       <a href="#register" class="btn">Registrarse</a>
       <a href="login.html" class="btn btn-secondary">Iniciar Sesión</a>
@@ -74,55 +78,8 @@
       <a href="#">Facebook</a> | <a href="#">Twitter</a>
     </div>
   </footer>
-  <script>
-      function enviar() {
-      fetch('api.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nombre: document.getElementById("name").value,
-          email: document.getElementById("email").value,
-          pswd: document.getElementById("pwd").value, 
-          tel: document.getElementById("tel").value
-        })
-      })
-      .then(response => response.json())
-      .then(dato => {
-        document.getElementById("name").value = ""; 
-        document.getElementById("email").value = ""; 
-        document.getElementById("pwd").value = ""; 
-        alert("Datos enviados")
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-    }
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll("section");
-
-  const revealSection = () => {
-    sections.forEach((section) => {
-      const sectionTop = section.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-
-      // Si la sección está dentro del viewport
-      if (sectionTop < windowHeight - 100) {
-        section.classList.add("visible");
-      } else {
-        section.classList.remove("visible");
-      }
-    });
-  };
-
-  // Llamar a revealSection cuando se carga la página y al hacer scroll
-  revealSection();
-  window.addEventListener("scroll", revealSection);
-});
-
-  </script>
+ 
+  <script src="main.js"></script>
+  <script src="revealinfo.js"></script>
 </body>
 </html>

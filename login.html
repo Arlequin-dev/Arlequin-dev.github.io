@@ -9,34 +9,39 @@
 <body>
     <section class="login">
         <h2>Login</h2>
-        <form id="miFormulario" method="post" action="api.php">
-        <input type="email" name="mail" id="email" placeholder="usuariop@gmail.com">
-        <input type="password" name="pswd" id="pwd" placeholder="*****">
-  
-    <button type="button" onclick="enviar()">Enviar</button>
-  </form>
+        <form id="miFormulario" onsubmit="return false;">
+            <input type="email" id="email" placeholder="usuario@gmail.com">
+            <input type="password" id="pwd" placeholder="*****">
+            <button type="button" onclick="enviar()">Enviar</button>
+        </form>
     </section>
+
+    <script>
+        function enviar() {
+            fetch('api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    accion: "login",
+                    email: document.getElementById("email").value,
+                    pswd: document.getElementById("pwd").value,
+                })
+            })
+            .then(response => response.json())
+            .then(dato => {
+                if (dato.success) {
+                    alert(`Bienvenido, ${dato.nombre}`);
+                    window.location.href = "pagina-principal.html";
+                } else {
+                    alert(dato.error || "Credenciales incorrectas");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
-  <script>
-      function enviar() {
-      fetch('api.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: document.getElementById("email").value,
-          pswd: document.getElementById("pwd").value, 
-        })
-      })
-      .then(response => response.json())
-      .then(dato => {
-        document.getElementById("email").value = ""; 
-        document.getElementById("pwd").value = ""; 
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-    }
-  </script>
 </html>

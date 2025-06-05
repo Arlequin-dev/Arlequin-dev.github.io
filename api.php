@@ -8,6 +8,23 @@ $controlador = new ControladorUsuario();
 
 switch ($metodo) {
     case 'POST':
-        echo json_encode($controlador->crearUsuario($input));
+        if (isset($input['accion'])) {
+            switch ($input['accion']) {
+                case 'login':
+                    echo json_encode($controlador->loginUsuario($input));
+                    break;
+                case 'crear':
+                    echo json_encode($controlador->crearUsuario($input));
+                    break;
+                default:
+                    echo json_encode(['error' => 'Acción no reconocida']);
+                    break;
+            }
+        } else {
+            echo json_encode(['error' => 'No se especificó ninguna acción']);
+        }
+        break;
+    default:
+        echo json_encode(['error' => 'Método no permitido']);
         break;
 }

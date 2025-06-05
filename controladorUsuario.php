@@ -11,4 +11,8 @@ class ControladorUsuario {
     public function crearUsuario($datos) {
         return $this->modelo->insertarUsuario($datos['nombre'], $datos['email'], $datos['pswd'], $datos["tel"]);
     }
+
+    public function loginUsuario($datos){
+        return $this->modelo->verificarCredenciales($datos['email'], $datos['pswd']);
+    }
 }

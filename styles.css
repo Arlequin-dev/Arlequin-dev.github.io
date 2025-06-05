@@ -1,4 +1,4 @@
-/* Estilos para index.html con un estilo "vintage" y diseño responsive */
+
 
 /* General */
 body {
@@ -49,6 +49,15 @@ header nav ul li a {
 header nav ul li a:hover {
   color: #8b5a2b;
 }
+
+#usuario{
+  cursor: pointer;
+}
+
+#usuario:hover {
+   color: #764420;
+}
+
 
 /* Hero Section */
 #hero {
