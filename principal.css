@@ -54,6 +54,7 @@ header .userSection{
     display: flex;
     align-items: center;
     margin-right: 20px;
+  
 }
 
 
@@ -67,10 +68,10 @@ header .userSection{
   padding: 10px 0;
   width: 150px;
   z-index: 1000;      
-  display: none;
+ 
 }
 
-header .userSection:hover .submenu{
+header .userSection .submenu{
     display: block;
 }
 
@@ -96,7 +97,7 @@ header .submenu li a:hover {
 }
 
 /* Mostrar el submenu al hacer hover */
-header .userSection:hover .submenu {
+header  .userSection:hover .submenu {
   display: block;
 }
 

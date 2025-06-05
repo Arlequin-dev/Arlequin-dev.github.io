@@ -15,4 +15,8 @@ class ControladorUsuario {
     public function loginUsuario($datos){
         return $this->modelo->verificarCredenciales($datos['email'], $datos['pswd']);
     }
+
+    public function cambiarUsuario($datos){
+        return $this->modelo->cambiarUsuario($datos['email'], $datos['oldpswd'], $datos['newpswd']); 
+    }
 }

@@ -43,4 +43,28 @@ class ModeloUsuario
             return ['success' => false, 'error' => 'Usuario no encontrado'];
         }
     }
+    public function cambiarUsuario($email, $pswd_vieja,$pswd_nueva)
+    {
+        $stmt = $this->db->prepare("SELECT pswd FROM prueba WHERE email = ?");
+        $stmt ->bind_param("s",$email);
+        $stmt->execute(); 
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc(); 
+        $hash_guardado = $row["pswd"]; 
+        if(!password_verify($pswd_vieja,$hash_guardado)){
+            echo "La contraseña actual es incorrecta"; 
+            return false; 
+        }
+        $pswd_hash =  password_hash($pswd_nueva,PASSWORD_DEFAULT); 
+        $stmt_update = $this->db->prepare("UPDATE prueba SET pswd = ? WHERE email = ?"); 
+        $stmt_update->bind_param("ss",$pswd_hash,$email); 
+        $stmt_update->execute(); 
+        if($stmt_update->affected_rows === 1){
+            echo "Contraseña actualizada";
+            return true; 
+        }else{
+            echo "Error grave"; 
+            return false;
+        }
+    }
 }

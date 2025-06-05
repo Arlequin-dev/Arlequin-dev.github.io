@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Usuario</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <section id="modifyuser">
+        <div class="user">
+            <h2>Cambio de contraseña</h2>
+            <input type="password" id="oldpswd" placeholder="contraseña actual" name="oldpswd" />
+            <input type="password" id="newpswd" placeholder="nueva contraseña" name="newpswd" />
+            <button type="button" onclick="changepswd()">Cambiar contraseña</button>
+            <h2>Renovar/cambiar Email</h2>
+            <input type="email" id="newmail" placeholder="nuevo email" />
+            <button type="button" onclick="newmail()">Renovar email</button>
+            
+        </div>
+    </section>
+
+    <script>
+        function changepswd() {
+            const oldpswd = document.getElementById("oldpswd").value;
+            const newpswd = document.getElementById("newpswd").value;
+
+            fetch("api.php", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    accion: "cambiar",
+                    oldpswd: oldpswd,
+                    newpswd: newpswd
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        document.getElementById("oldpswd").value = "";
+                        document.getElementById("newpswd").value = "";
+                    } else {
+                        alert("Error: " + (data.message || "Error desconocido"));
+                    }
+                })
+                .catch(error => {
+                    console.error("Error en la petición:", error);
+                    alert("Error de red o del servidor");
+                });
+        }
+    </script>
+</body>
+</html>
