@@ -51,7 +51,7 @@ mysql -u usuario -p nombre_base_de_datos < setup.sql
 Ajusta la configuración de conexión a la base de datos en modeloUsuario.php si es necesario (host, usuario, contraseña, nombre de la base).
 Asegúrate que el servidor tenga permisos para ejecutar los archivos PHP.
 
-Uso
+### Uso
 Abre index.html para acceder a la página principal.
 Navega a login.html para iniciar sesión con un usuario registrado.
 Tras autenticación exitosa, se redirige a pagina-principal.html.
