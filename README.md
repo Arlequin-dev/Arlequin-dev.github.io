@@ -45,15 +45,16 @@ El objetivo es ofrecer una plataforma simple para manejar usuarios con un fronte
    ```bash
    git clone https://github.com/Arlequin-dev/Arlequin-dev.github.io.git
    cd Arlequin-dev.github.io
-Configura tu servidor web para servir el contenido desde esta carpeta.
-Importa la base de datos usando el script SQL:
-mysql -u usuario -p nombre_base_de_datos < setup.sql
-Ajusta la configuración de conexión a la base de datos en modeloUsuario.php si es necesario (host, usuario, contraseña, nombre de la base).
-Asegúrate que el servidor tenga permisos para ejecutar los archivos PHP.
 
+2. Configura tu servidor web para servir el contenido desde esta carpeta.
+3.  Importa la base de datos usando el script SQL:
+4.  mysql -u usuario -p nombre_base_de_datos < setup.sql
+5.  Ajusta la configuración de conexión a la base de datos en modeloUsuario.php si es necesario (host, usuario, contraseña, nombre de la base).
+6.  Asegúrate que el servidor tenga permisos para ejecutar los archivos PHP.
+---
 ### Uso
-Abre index.html para acceder a la página principal.
-Navega a login.html para iniciar sesión con un usuario registrado.
-Tras autenticación exitosa, se redirige a pagina-principal.html.
-Desde ahí, puedes acceder a tu perfil en usuario.html para ver o modificar datos.
-Las operaciones con usuarios se gestionan mediante la API en api.php.
+1. Abre index.html para acceder a la página principal.
+2. Navega a login.html para iniciar sesión con un usuario registrado.
+3. Tras autenticación exitosa, se redirige a pagina-principal.html.
+4. Desde ahí, puedes acceder a tu perfil en usuario.html para ver o modificar datos.
+5. Las operaciones con usuarios se gestionan mediante la API en api.php.
