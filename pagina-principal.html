@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Página Principal</title>
-    <link rel="stylesheet" href="principal.css">
-    <script
-      src="https://kit.fontawesome.com/927dd3c386.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  </head>
-  <body>
-    <header>
-      <div class="logo">Bienvenido usuario</div>
-      <div class="userSection">
-        <i class="fa fa-user fa-3x" id="user"></i>
-        <i class="fa fa-angle-down"></i>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Principal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="principal.css">
+</head>
+<body>
+   <header>
+    <div class="logo" id="logo">Bienvenido</div>
+    <div class="userSection">
+      <i class="fa fa-user fa-3x" id="user" aria-hidden="true"></i>
+      <i class="fa fa-angle-down" aria-hidden="true"></i>
+      <div class="submenu">
+        <ul>
+          <li><a href="#" aria-label="Perfil">Perfil</a></li>
+          <li><a href="./usuario.html" aria-label="Configuración">Configuración</a></li>
+          <li><a href="./index.html" aria-label="Cerrar sesión">Cerrar sesión</a></li>
+        </ul>
       </div>
-        <div class="submenu">
-          <ul>
-            <li><a href="#">Perfil</a></li>
-            <li><a href="./usuario.html">Configuración</a></li>
-            <li><a href="./index.html ">Cerrar sesión</a></li>
-          </ul>
+    </div>
+  </header>
+
+    <h2>Tus pagos</h2>
+      <div class="pago">
+        <div class="pago-info">
+          <h3>Pago 1</h3>
+          <p>Fecha: 01/01/2023</p>
+          <p>Monto: $100</p>
         </div>
+        <button class="btn-pago">Ver Detalles</button>
       </div>
-    </header>
-  </body>
+
+  <script type="module">
+    import { obtenerEmailUsuario } from './obtenerUsuario.js';
+    import { generarDeuda} from './generarDeuda.js'; 
+
+window.onload = async function() {
+  const email = await obtenerEmailUsuario();
+  document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
+ 
+};
+
+  </script>
+</body>
 </html>

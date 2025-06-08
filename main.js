@@ -17,11 +17,15 @@
       })
       .then(response => response.json())
       .then(dato => {
-        document.getElementById("name").value = ""; 
+       if(dato.success){
+         document.getElementById("name").value = ""; 
         document.getElementById("email").value = ""; 
         document.getElementById("pwd").value = ""; 
         document.getElementById("tel").value = ""; 
         alert("Datos enviados")
+       }else{
+         alert("Error al enviar los datos: " + dato.error);
+       }
       })
       .catch(error => {
         console.error('Error:', error);

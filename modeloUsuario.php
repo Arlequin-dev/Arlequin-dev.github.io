@@ -15,7 +15,7 @@ class ModeloUsuario
         $stmt->bind_param("ssss", $nombre, $email, $pswdHash, $tel);
 
         if ($stmt->execute()) {
-            return ['success' => true, 'id' => $stmt->insert_id];
+            return ['success' => true, 'email' => $email];
         } else {
             return ['error' => 'Error al insertar usuario: ' . $stmt->error];
         }
@@ -23,7 +23,7 @@ class ModeloUsuario
 
     public function verificarCredenciales($email, $pswd)
     {
-        $stmt = $this->db->prepare("SELECT id, nombre, pswd FROM usuarios WHERE email = ?");
+        $stmt = $this->db->prepare("SELECT nombre, pswd FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -33,7 +33,7 @@ class ModeloUsuario
             if (password_verify($pswd, $usuario['pswd'])) {
                 return [
                     'success' => true,
-                    'id' => $usuario['id'],
+                    'email' => $email,
                     'nombre' => $usuario['nombre']
                 ];
             } else {
@@ -43,28 +43,58 @@ class ModeloUsuario
             return ['success' => false, 'error' => 'Usuario no encontrado'];
         }
     }
-    public function cambiarUsuario($email, $pswd_vieja,$pswd_nueva)
+
+    public function cambiarUsuario($email, $pswd_vieja, $pswd_nueva)
     {
-        $stmt = $this->db->prepare("SELECT pswd FROM prueba WHERE email = ?");
-        $stmt ->bind_param("s",$email);
-        $stmt->execute(); 
+        $stmt = $this->db->prepare("SELECT pswd FROM usuarios WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc(); 
-        $hash_guardado = $row["pswd"]; 
-        if(!password_verify($pswd_vieja,$hash_guardado)){
-            echo "La contraseña actual es incorrecta"; 
-            return false; 
+        $row = $result->fetch_assoc();
+        $hash_guardado = $row["pswd"];
+        if (!password_verify($pswd_vieja, $hash_guardado)) {
+            return ['success' => false, 'message' => 'La contraseña actual es incorrecta'];
         }
-        $pswd_hash =  password_hash($pswd_nueva,PASSWORD_DEFAULT); 
-        $stmt_update = $this->db->prepare("UPDATE prueba SET pswd = ? WHERE email = ?"); 
-        $stmt_update->bind_param("ss",$pswd_hash,$email); 
-        $stmt_update->execute(); 
-        if($stmt_update->affected_rows === 1){
-            echo "Contraseña actualizada";
-            return true; 
-        }else{
-            echo "Error grave"; 
-            return false;
+        $pswd_hash = password_hash($pswd_nueva, PASSWORD_DEFAULT);
+        $stmt_update = $this->db->prepare("UPDATE usuarios SET pswd = ? WHERE email = ?");
+        $stmt_update->bind_param("ss", $pswd_hash, $email);
+        $stmt_update->execute();
+        if ($stmt_update->affected_rows === 1) {
+            return ['success' => true, 'message' => 'Contraseña actualizada'];
+        } else {
+            return ['success' => false, 'message' => 'Error al actualizar la contraseña'];
+        }
+    }
+
+    public function crearDeuda($email, $monto)
+    {
+        $stmt = $this->db->prepare("INSERT INTO transacciones (usuario_email, tipo, monto) VALUES (?, 'deuda', ?)");
+        if (!$stmt) {
+            return ['success' => false, 'error' => 'Error en prepare: ' . $this->db->error];
+        }
+        $stmt->bind_param("sd", $email, $monto);
+
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Deuda creada correctamente'];
+        } else {
+            return ['success' => false, 'error' => 'Error al crear deuda: ' . $stmt->error];
+        }
+    }
+    public function obtenerDeudas($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM deudas WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $deudas = [];
+            while ($row = $result->fetch_assoc()) {
+                $deudas[] = $row;
+            }
+            return ['success' => true, 'deudas' => $deudas];
+        } else {
+            return ['success' => false, 'error' => 'No se encontraron deudas para este usuario'];
         }
     }
 }
