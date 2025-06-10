@@ -23,24 +23,30 @@
     </div>
   </header>
 
-    <h2>Tus pagos</h2>
-      <div class="pago">
-        <div class="pago-info">
-          <h3>Pago 1</h3>
-          <p>Fecha: 01/01/2023</p>
-          <p>Monto: $100</p>
-        </div>
-        <button class="btn-pago">Ver Detalles</button>
-      </div>
 
   <script type="module">
     import { obtenerEmailUsuario } from './obtenerUsuario.js';
-    import { generarDeuda} from './generarDeuda.js'; 
+    import { generarDeuda} from './generarDeuda.js';
+    import { obtenerDeuda } from './generarDeuda.js';
 
 window.onload = async function() {
   const email = await obtenerEmailUsuario();
   document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
- 
+  generarDeuda(email,1000.00); 
+  const transacciones = await obtenerDeuda(email);
+  if(transacciones){
+    transacciones.forEach(tx => {
+      console.log(`Transacción: ${tx.id}, Monto: ${tx.monto}, Fecha: ${tx.fecha}`);
+      if(tx.tipo === 'deuda'){
+        document.body.appendChild(
+          Object.assign(document.createElement('div'), {
+            className: 'pago',
+            innerHTML: `<h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`
+          })
+        );
+      }
+    });
+  }
 };
 
   </script>

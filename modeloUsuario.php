@@ -82,7 +82,7 @@ class ModeloUsuario
     }
     public function obtenerDeudas($email)
     {
-        $stmt = $this->db->prepare("SELECT * FROM deudas WHERE email = ?");
+       $stmt = $this->db->prepare("SELECT * FROM transacciones WHERE usuario_email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();

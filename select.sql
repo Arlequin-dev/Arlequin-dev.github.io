@@ -14,3 +14,4 @@ LEFT JOIN
     transacciones
 ON 
     usuarios.email = transacciones.usuario_email;
+
