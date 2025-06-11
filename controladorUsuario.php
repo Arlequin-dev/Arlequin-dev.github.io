@@ -9,7 +9,13 @@ class ControladorUsuario {
     }
 
     public function crearUsuario($datos) {
-        return $this->modelo->insertarUsuario($datos['nombre'], $datos['email'], $datos['pswd'], $datos["tel"]);
+        return $this->modelo->insertarUsuario(
+            $datos['nombre'],
+            $datos['rol'],      
+            $datos['email'],   
+            $datos['pswd'],
+            $datos['tel']
+        );
     }
 
     public function loginUsuario($datos){
@@ -19,8 +25,8 @@ class ControladorUsuario {
     public function cambiarUsuario($datos){
         return $this->modelo->cambiarUsuario($datos['email'], $datos['oldpswd'], $datos['newpswd']); 
     }
-    public function crearDeuda($email, $monto) {
-        return $this->modelo->crearDeuda($email, $monto);
+    public function crearDeuda($email,$titulo, $monto) {
+        return $this->modelo->crearDeuda($email, $titulo,$monto);
     }
     public function obtenerDeudas($email) {
         return $this->modelo->obtenerDeudas($email);

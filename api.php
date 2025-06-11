@@ -39,7 +39,7 @@ switch ($metodo) {
                     echo json_encode($controlador->crearUsuario($input));
                     break;
                 case 'deuda':
-                    echo json_encode($controlador->crearDeuda($input['email'], $input['monto']));
+                    echo json_encode($controlador->crearDeuda($input['email'], $input['titulo'],$input['monto']));
                     break;
                 default:
                     echo json_encode(['error' => 'Acción no reconocida']);

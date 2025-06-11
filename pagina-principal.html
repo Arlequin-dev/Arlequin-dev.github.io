@@ -32,7 +32,7 @@
 window.onload = async function() {
   const email = await obtenerEmailUsuario();
   document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
-  generarDeuda(email,1000.00); 
+  generarDeuda(email,"test",1000.00); 
   const transacciones = await obtenerDeuda(email);
   if(transacciones){
     transacciones.forEach(tx => {
@@ -41,7 +41,7 @@ window.onload = async function() {
         document.body.appendChild(
           Object.assign(document.createElement('div'), {
             className: 'pago',
-            innerHTML: `<h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`
+            innerHTML: `<h2>${tx.titulo}</h2><h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`
           })
         );
       }

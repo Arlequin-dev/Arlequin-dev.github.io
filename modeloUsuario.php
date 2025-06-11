@@ -8,11 +8,11 @@ class ModeloUsuario
         $this->db = new mysqli("localhost", "root", "", "prueba");
     }
 
-    public function insertarUsuario($nombre, $email, $pswd, $tel)
+    public function insertarUsuario($nombre,$rol, $email, $pswd, $tel)
     {
         $pswdHash = password_hash($pswd, PASSWORD_DEFAULT);
-        $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, email, pswd, tel) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $nombre, $email, $pswdHash, $tel);
+        $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, rol ,email, pswd, tel) VALUES (? , ? , ?, ?, ?)");
+        $stmt->bind_param("sssss", $nombre, $rol, $email, $pswdHash, $tel);
 
         if ($stmt->execute()) {
             return ['success' => true, 'email' => $email];
@@ -66,13 +66,13 @@ class ModeloUsuario
         }
     }
 
-    public function crearDeuda($email, $monto)
+    public function crearDeuda($email, $titulo, $monto)
     {
-        $stmt = $this->db->prepare("INSERT INTO transacciones (usuario_email, tipo, monto) VALUES (?, 'deuda', ?)");
+        $stmt = $this->db->prepare("INSERT INTO transacciones (usuario_email, titulo, tipo, monto) VALUES (?, ?, 'deuda', ?)");
         if (!$stmt) {
             return ['success' => false, 'error' => 'Error en prepare: ' . $this->db->error];
         }
-        $stmt->bind_param("sd", $email, $monto);
+        $stmt->bind_param("ssd", $email, $titulo, $monto);
 
         if ($stmt->execute()) {
             return ['success' => true, 'message' => 'Deuda creada correctamente'];

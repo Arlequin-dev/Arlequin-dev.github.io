@@ -5,6 +5,7 @@ USE prueba;
 
 CREATE TABLE usuarios (
     email VARCHAR(255) PRIMARY KEY,
+    rol ENUM('admin', 'tesorero' ,'socio') NOT NULL,
     nombre VARCHAR(100),
     pswd VARCHAR(100),
     tel VARCHAR(15)
@@ -13,6 +14,7 @@ CREATE TABLE usuarios (
 
 CREATE TABLE transacciones (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
     usuario_email VARCHAR(255), 
     tipo ENUM('pago', 'deuda'),
     monto DECIMAL(10, 2),

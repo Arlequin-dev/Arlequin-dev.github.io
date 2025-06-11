@@ -10,6 +10,7 @@
         body: JSON.stringify({
           accion: "crear",
           nombre: document.getElementById("name").value,
+          rol: "socio", 
           email: document.getElementById("email").value,
           pswd: document.getElementById("pwd").value, 
           tel: document.getElementById("tel").value
