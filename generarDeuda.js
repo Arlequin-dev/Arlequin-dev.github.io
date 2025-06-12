@@ -1,4 +1,4 @@
-export async function generarDeuda(email, titulo ,deuda) {
+export async function generarDeuda(email, tituloInput ,deuda) {
   if (email) {
     try {
       const response = await fetch("api.php", {
@@ -9,8 +9,8 @@ export async function generarDeuda(email, titulo ,deuda) {
         body: JSON.stringify({
           accion: "deuda",
           email: email,
-          titulo: titulo, 
-          monto: deuda,
+          titulo: tituloInput.value, 
+          monto: deuda.value,
         }),
       });
 

@@ -82,7 +82,7 @@ class ModeloUsuario
     }
     public function obtenerDeudas($email)
     {
-       $stmt = $this->db->prepare("SELECT * FROM transacciones WHERE usuario_email = ?");
+        $stmt = $this->db->prepare("SELECT * FROM transacciones WHERE usuario_email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -96,5 +96,16 @@ class ModeloUsuario
         } else {
             return ['success' => false, 'error' => 'No se encontraron deudas para este usuario'];
         }
+    }
+    public function eliminarDeuda($id,$email){
+        $stmt = $this->db->prepare("DELETE FROM transacciones WHERE id = ? AND email = ?"); 
+        $stmt->bind_param("ss", $id,$email); 
+        $stmt->execute(); 
+       if($stmt->execute()){
+        return ['success' => true, 'message' => 'Deuda eliminada correctamente'];
+       }else{
+        return ['success' => false, 'error' => 'Deuda no encontrada']; 
+       }
+        
     }
 }

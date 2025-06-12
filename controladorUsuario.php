@@ -31,4 +31,8 @@ class ControladorUsuario {
     public function obtenerDeudas($email) {
         return $this->modelo->obtenerDeudas($email);
     }
+
+    public function eliminarDeuda($id,$email){
+        return $this->modelo->eliminarDeuda($id,$email); 
+    }
 }

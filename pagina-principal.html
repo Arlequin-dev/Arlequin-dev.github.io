@@ -22,17 +22,28 @@
       </div>
     </div>
   </header>
-
+  <form action="api.php" method="post">
+    <input type="email" name="emailUsuario" id="eUsuario" placeholder="email del usuario a generar deuda">
+    <input type="text" name="tituloDeuda" id="tdeuda" placeholder="titulo de la deuda">
+    <input type="text" name="numeroDeuda" id="ndeuda" placeholder="valor de la deuda">
+    <button id="generarD">Enviar</button>
+    
+  </form>
 
   <script type="module">
     import { obtenerEmailUsuario } from './obtenerUsuario.js';
     import { generarDeuda} from './generarDeuda.js';
     import { obtenerDeuda } from './generarDeuda.js';
-
+   
 window.onload = async function() {
   const email = await obtenerEmailUsuario();
+  const titulo = document.getElementById("tdeuda"); 
+  const monto = document.getElementById("ndeuda");
+  document.getElementById("generarD").addEventListener("click",async e =>{
+    e.preventDefault(); 
+    await generarDeuda(email,titulo,monto); 
+  })
   document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
-  generarDeuda(email,"test",1000.00); 
   const transacciones = await obtenerDeuda(email);
   if(transacciones){
     transacciones.forEach(tx => {

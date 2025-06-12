@@ -1,5 +1,5 @@
 <?php
-session_start();  
+session_start();
 require_once 'controladorUsuario.php';
 header('Content-Type: application/json');
 ini_set('display_errors', 1);
@@ -18,7 +18,7 @@ switch ($metodo) {
                 case 'login':
                     $resultado = $controlador->loginUsuario($input);
                     if (isset($resultado['success']) && $resultado['success'] === true) {
-                        $_SESSION['usuario_email']  = $input['email'];
+                        $_SESSION['usuario_email'] = $input['email'];
                         $_SESSION['usuario_nombre'] = $resultado['nombre'];
                     }
                     echo json_encode($resultado);
@@ -39,7 +39,7 @@ switch ($metodo) {
                     echo json_encode($controlador->crearUsuario($input));
                     break;
                 case 'deuda':
-                    echo json_encode($controlador->crearDeuda($input['email'], $input['titulo'],$input['monto']));
+                    echo json_encode($controlador->crearDeuda($input['email'], $input['titulo'], $input['monto']));
                     break;
                 default:
                     echo json_encode(['error' => 'Acción no reconocida']);
@@ -58,7 +58,7 @@ switch ($metodo) {
                 echo json_encode(['error' => 'No se ha iniciado sesión']);
             }
         }
-        break;  // Agregar break para evitar caídas
+        break; 
     case 'GET':
         if (isset($_GET['accion'])) {
             switch ($_GET['accion']) {
@@ -66,8 +66,8 @@ switch ($metodo) {
                     if (isset($_SESSION['usuario_email'])) {
                         echo json_encode([
                             'success' => true,
-                            'email'   => $_SESSION['usuario_email'],
-                            'nombre'  => $_SESSION['usuario_nombre']
+                            'email' => $_SESSION['usuario_email'],
+                            'nombre' => $_SESSION['usuario_nombre']
                         ]);
                     } else {
                         echo json_encode(['success' => false, 'error' => 'No hay usuario logueado']);
@@ -88,6 +88,16 @@ switch ($metodo) {
             echo json_encode(['error' => 'No se especificó acción']);
         }
         break;
+    case 'DELETE':
+        if (isset($_GET['accion'])) {
+            switch ($_GET['accion']) {
+                case 'delDeuda':
+                    echo json_encode($controlador->eliminarDeuda($id, $_SESSION['usuario_email']));
+                    break;
+            }
+
+            break;
+        }
     default:
         echo json_encode(['error' => 'Método no permitido']);
         break;
