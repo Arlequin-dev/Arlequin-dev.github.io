@@ -4,6 +4,7 @@ SELECT
     usuarios.nombre,
     usuarios.pswd,
     usuarios.rol,
+    usuarios.estado, 
     usuarios.tel,
     transacciones.id AS transaccion_id,
     transacciones.tipo,
@@ -17,3 +18,6 @@ LEFT JOIN
 ON 
     usuarios.email = transacciones.usuario_email;
 
+UPDATE usuarios 
+SET rol = 'admin', estado = 'activo' 
+WHERE email = 'a@gmail.com';

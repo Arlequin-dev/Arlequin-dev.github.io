@@ -25,6 +25,19 @@ class ControladorUsuario {
     public function cambiarUsuario($datos){
         return $this->modelo->cambiarUsuario($datos['email'], $datos['oldpswd'], $datos['newpswd']); 
     }
+
+    public function obtenerPendientes(){
+        return $this->modelo->obtenerPendientes(); 
+    }
+
+    public function aceptarPendiente($email){
+        return $this->modelo->aceptarPendiente( $email); 
+    }
+
+    public function obtenerRol($email) {
+        return $this->modelo->obtenerRol($email);
+    }
+
     public function crearDeuda($email,$titulo, $monto) {
         return $this->modelo->crearDeuda($email, $titulo,$monto);
     }

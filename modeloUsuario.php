@@ -23,13 +23,16 @@ class ModeloUsuario
 
     public function verificarCredenciales($email, $pswd)
     {
-        $stmt = $this->db->prepare("SELECT nombre, pswd FROM usuarios WHERE email = ?");
+        $stmt = $this->db->prepare("SELECT nombre, pswd, estado FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows === 1) {
             $usuario = $result->fetch_assoc();
+            if ($usuario['estado'] !== 'activo') {
+                return ['success' => false, 'error' => 'Tu cuenta aún no ha sido aceptada.'];
+            }
             if (password_verify($pswd, $usuario['pswd'])) {
                 return [
                     'success' => true,
@@ -66,6 +69,44 @@ class ModeloUsuario
         }
     }
 
+    public function obtenerPendientes() {
+        $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE estado = 'pendiente'");
+        $stmt->execute(); 
+        $result = $stmt->get_result();
+        $usuariosPendientes = [];
+        while ($row = $result->fetch_assoc()) {
+            $usuariosPendientes[] = $row;
+        }
+    
+        return $usuariosPendientes;
+    }
+
+    public function aceptarPendiente($email)
+    {
+        $stmt = $this->db->prepare("UPDATE usuarios SET estado = 'activo' WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Usuario aceptado correctamente'];
+        } else {
+            return ['success' => false, 'error' => 'Error al aceptar usuario: ' . $stmt->error];
+        }
+    }
+
+    public function obtenerRol($email)
+    {
+        $stmt = $this->db->prepare("SELECT rol FROM usuarios WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            return ['success' => true, 'rol' => $row['rol']];
+        } else {
+            return ['success' => false, 'error' => 'Usuario no encontrado'];
+        }
+    }
+    
     public function crearDeuda($email, $titulo, $monto)
     {
         $stmt = $this->db->prepare("INSERT INTO transacciones (usuario_email, titulo, tipo, monto) VALUES (?, ?, 'deuda', ?)");

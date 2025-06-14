@@ -124,6 +124,10 @@ header .submenu li a:hover {
 .pago:hover {
   box-shadow: 0 4px 16px rgba(139, 90, 43, 0.18);
 }
+
+.adminSection{
+  display: none;
+}
 /*responsividad*/
 @media (max-width: 768px) {
     header {

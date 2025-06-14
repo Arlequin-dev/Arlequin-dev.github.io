@@ -50,13 +50,29 @@ switch ($metodo) {
         }
         break;
     case 'PUT':
-        if (isset($input['accion']) && $input['accion'] === 'cambiar') {
-            if (isset($_SESSION['usuario_email'])) {
-                $input['email'] = $_SESSION['usuario_email'];
-                echo json_encode($controlador->cambiarUsuario($input));
-            } else {
-                echo json_encode(['error' => 'No se ha iniciado sesión']);
+        if (isset($input['accion'])) {
+            switch ($input['accion']) {
+                case 'cambiar':
+                    if (isset($_SESSION['usuario_email'])) {
+                        $input['email'] = $_SESSION['usuario_email'];
+                        echo json_encode($controlador->cambiarUsuario($input));
+                    } else {
+                        echo json_encode(['error' => 'No se ha iniciado sesión']);
+                    }
+                    break;
+                case 'aceptarPendiente':
+                    if (isset($_SESSION['usuario_email']) && isset($input['email'])) {
+                        echo json_encode($controlador->aceptarPendiente($input['email']));
+                    } else {
+                        echo json_encode(['error' => 'No se ha iniciado sesión o falta el email del pendiente']);
+                    }
+                    break;
+                default:
+                    echo json_encode(['error' => 'Acción PUT no reconocida']);
+                    break;
             }
+        } else {
+            echo json_encode(['error' => 'No se especificó ninguna acción']);
         }
         break; 
     case 'GET':
@@ -76,6 +92,16 @@ switch ($metodo) {
                 case 'deudas':
                     if (isset($_SESSION['usuario_email'])) {
                         echo json_encode($controlador->obtenerDeudas($_SESSION['usuario_email']));
+                    } else {
+                        echo json_encode(['error' => 'No se ha iniciado sesión']);
+                    }
+                    break;
+                case 'pendientes': 
+                    echo json_encode($controlador->obtenerPendientes());
+                    break; 
+                case 'rol':
+                    if (isset($_SESSION['usuario_email'])) {
+                        echo json_encode($controlador->obtenerRol($_SESSION['usuario_email']));
                     } else {
                         echo json_encode(['error' => 'No se ha iniciado sesión']);
                     }

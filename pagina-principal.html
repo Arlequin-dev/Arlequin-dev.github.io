@@ -22,44 +22,110 @@
       </div>
     </div>
   </header>
+    <div class="adminSection">
   <form action="api.php" method="post">
     <input type="email" name="emailUsuario" id="eUsuario" placeholder="email del usuario a generar deuda">
     <input type="text" name="tituloDeuda" id="tdeuda" placeholder="titulo de la deuda">
     <input type="text" name="numeroDeuda" id="ndeuda" placeholder="valor de la deuda">
     <button id="generarD">Enviar</button>
-    
   </form>
 
+
+  <select name="aprob" id="toAp"></select>
+  <button id="btnAprobar">Aprobar</button>
+  <button>No aprobar</button>
+  </div>
   <script type="module">
     import { obtenerEmailUsuario } from './obtenerUsuario.js';
-    import { generarDeuda} from './generarDeuda.js';
+    import { generarDeuda } from './generarDeuda.js';
     import { obtenerDeuda } from './generarDeuda.js';
-   
-window.onload = async function() {
-  const email = await obtenerEmailUsuario();
-  const titulo = document.getElementById("tdeuda"); 
-  const monto = document.getElementById("ndeuda");
-  document.getElementById("generarD").addEventListener("click",async e =>{
-    e.preventDefault(); 
-    await generarDeuda(email,titulo,monto); 
-  })
-  document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
-  const transacciones = await obtenerDeuda(email);
-  if(transacciones){
-    transacciones.forEach(tx => {
-      console.log(`Transacción: ${tx.id}, Monto: ${tx.monto}, Fecha: ${tx.fecha}`);
-      if(tx.tipo === 'deuda'){
-        document.body.appendChild(
-          Object.assign(document.createElement('div'), {
-            className: 'pago',
-            innerHTML: `<h2>${tx.titulo}</h2><h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`
-          })
-        );
-      }
-    });
-  }
-};
+    import { obtenerPendiente } from './obtenerPendientes.js'; 
 
+    window.onload = async function() {
+      let dOb = await obtenerPendiente();
+      dOb.forEach(e => {
+        document.getElementById("toAp").appendChild(Object.assign(document.createElement("option"))).innerHTML = e.email
+      });
+      const email = await obtenerEmailUsuario();
+      try {
+        const response = await fetch('api.php?accion=rol',{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        if (data.success) {
+          if (data.rol === 'admin') {
+            document.querySelector('.adminSection').style.display = 'block';
+          } else {
+            document.querySelector('.adminSection').style.display = 'none';
+          }
+        } else {
+          console.error('Error al obtener el rol del usuario:', data.error);
+        }
+      }catch (error) {
+        console.error('Error al obtener el rol del usuario:', error);
+      }
+      const titulo = document.getElementById("tdeuda"); 
+      const monto = document.getElementById("ndeuda");
+      document.getElementById("generarD").addEventListener("click",async e =>{
+        e.preventDefault(); 
+        await generarDeuda(document.getElementById("eUsuario").value,titulo,monto); 
+      })
+      document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
+      const transacciones = await obtenerDeuda(email);
+      if(transacciones){
+        transacciones.forEach(tx => {
+          console.log(`Transacción: ${tx.id}, Monto: ${tx.monto}, Fecha: ${tx.fecha}`);
+          if(tx.tipo === 'deuda'){
+            document.body.appendChild(
+              Object.assign(document.createElement('div'), {
+                className: 'pago',
+                innerHTML: `<h2>${tx.titulo}</h2><h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`
+              })
+            );
+          }
+        });
+      }
+    };
+
+
+    async function aprobar(){
+      const emailPendiente = document.getElementById("toAp").value; 
+      if (!emailPendiente) {
+        alert('Selecciona un usuario pendiente');
+        return;
+      }
+      try{
+        const response = await fetch('api.php',{
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            accion: 'aceptarPendiente',
+            email: emailPendiente
+          })
+        });
+        const data = await response.json();
+        if (data.success) {
+          alert('Usuario aceptado correctamente');
+          window.location.reload(); 
+        } else {
+          alert('Error: ' + (data.error || 'No se pudo aceptar el usuario'));
+        }
+      }
+      catch(error){
+        console.error('Error al aprobar el usuario:', error);
+        alert('Error al aprobar el usuario');
+      }
+    }
+
+    document.getElementById("btnAprobar").addEventListener("click", function(e) {
+      e.preventDefault();
+      aprobar();
+    });
   </script>
 </body>
 </html>
