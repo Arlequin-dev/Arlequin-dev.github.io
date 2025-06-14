@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página Principal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="principal.css">
+  <link rel="stylesheet" href="./css/principal.css">
 </head>
 <body>
    <header>
@@ -36,10 +36,10 @@
   <button>No aprobar</button>
   </div>
   <script type="module">
-    import { obtenerEmailUsuario } from './obtenerUsuario.js';
-    import { generarDeuda } from './generarDeuda.js';
-    import { obtenerDeuda } from './generarDeuda.js';
-    import { obtenerPendiente } from './obtenerPendientes.js'; 
+    import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
+    import { generarDeuda } from './modules/generarDeuda.js';
+    import { obtenerDeuda } from './modules/generarDeuda.js';
+    import { obtenerPendiente } from './modules/obtenerPendientes.js'; 
 
     window.onload = async function() {
       let dOb = await obtenerPendiente();

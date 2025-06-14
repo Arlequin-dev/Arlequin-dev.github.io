@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cooperativa de Viviendas</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
    <script src="https://kit.fontawesome.com/927dd3c386.js" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -62,7 +62,7 @@
   <section id="contact">
     <h2>Contacto</h2>
     <p>Email: contacto@cooperativa.com | Teléfono: +598 1234 5678</p>
-    <form action="/api/contacto" method="POST">
+    <form action="./php/apis/api.php" method="POST">
       <input type="text" name="nombre" placeholder="Tu Nombre" required>
       <input type="email" name="email" placeholder="Tu Email" required>
      
@@ -79,7 +79,7 @@
     </div>
   </footer>
  
-  <script src="main.js"></script>
-  <script src="revealinfo.js"></script>
+  <script src="./modules/main.js"></script>
+  <script src="./modules/revealinfo.js"></script>
 </body>
 </html>
