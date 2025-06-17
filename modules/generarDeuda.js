@@ -8,7 +8,7 @@ export async function generarDeuda(email, tituloInput ,deuda) {
         },
         body: JSON.stringify({
           accion: "deuda",
-          email: email,
+          email: email.value,
           titulo: tituloInput.value, 
           monto: deuda.value,
         }),
@@ -26,6 +26,10 @@ export async function generarDeuda(email, tituloInput ,deuda) {
 
       if (data.success || data.message === "Deuda creada correctamente") {
         console.log("deuda exitosa");
+        alert("Deuda creada correctamente");
+        email.value = "";
+        tituloInput.value = "";
+        deuda.value = "";
       } else {
         console.error("Error al crear deuda:", data.error || data.message);
       }

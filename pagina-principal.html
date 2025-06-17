@@ -71,7 +71,7 @@
       const monto = document.getElementById("ndeuda");
       document.getElementById("generarD").addEventListener("click",async e =>{
         e.preventDefault(); 
-        await generarDeuda(document.getElementById("eUsuario").value,titulo,monto); 
+        await generarDeuda(document.getElementById("eUsuario"),titulo,monto); 
       })
       document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
       const transacciones = await obtenerDeuda(email);

@@ -1,147 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Libre+Baskerville&display=swap');
+
 body {
-  font-family: "Georgia", serif;
-  line-height: 1.8;
+  background-color: #f3ecdc;
+  color: #1a1a1a;
+  font-family: 'Libre Baskerville', serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  background-color: #fdf8e1;
-  color: #5a4a3f;
-}
+  line-height: 1.6;
+  animation: anim1 1.5s ease-in}
 
-/* Encabezado */
 header {
-  position: relative;
+  background-color: #f3ecdc;
+  border-top: 8px double #4a5f58;
+  border-bottom: 8px double #4a5f58;
+  padding: 1.2rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #d2b48c;
-  color: #3e2e23;
-  padding: 15px 20px;
-  border-bottom: 3px solid #8b5a2b;
+  position: relative;
+  box-shadow: 0 4px 10px #0000001a
 }
 
-header .logo {
-  font-size: 2em;
-  font-weight: bold;
-  font-family: "Courier New", monospace;
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  text-transform: uppercase;
+  color: #2f4f4f;
+  letter-spacing: 1px
 }
 
-header nav ul {
-  list-style: none;
+.userSection {
+  position: relative;
+  color: #2f4f4f;
+  cursor: pointer;
+  font-size: 1rem;
   display: flex;
-  margin: 0;
-  padding: 0;
+  align-items: center;
+  gap: 0.3rem
 }
 
-header nav ul li {
-  margin-left: 20px;
-}
+.userSection i {transition: transform 0.3s ease }
 
-header nav ul li a {
-  text-decoration: none;
-  color: #3e2e23;
-  font-weight: bold;
-  transition: color 0.3s;
-}
+.userSection:hover i.fa-angle-down {transform: rotate(180deg)}
 
-header nav ul li a:hover {
-  color: #8b5a2b;
-}
-
-header .userSection{
-    width: 200px;
-    width: auto;
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-  
-}
-
-
- header .submenu {
+.submenu {
+  display: none;
   position: absolute;
-  top: 100%;         
-  right: 0;          
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  width: 150px;
-  z-index: 1000;      
- 
-}
-
-header .userSection .submenu {
-  display: none; 
-  position: absolute;
-  top: 100%;
   right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  width: 150px;
-  z-index: 1000;
+  top: 100%;
+  background-color: #fffef6;
+  border: 1px solid #4a5f58;
+  border-radius: 0 0 6px 6px;
+  padding: 0.5rem 0;
+  min-width: 150px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100
 }
 
-header .userSection:hover .submenu {
+.userSection:hover .submenu {display: block}
+
+.submenu ul {list-style: none; margin: 0;padding: 0}
+
+.submenu ul li a {
   display: block;
-}
-
-header .submenu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-header .submenu li {
-  padding: 10px 15px;
-}
-
-header .submenu li a {
+  padding: 0.6rem 1rem;
   text-decoration: none;
-  color: #333;
-  display: block;
+  color: #2f4f4f;
+  font-family: 'Playfair Display', serif;
+  transition: background-color 0.3s ease
 }
 
-header .submenu li a:hover {
-  background-color: #d2b48c;
-  color: #fff;
+.submenu ul li a:hover {background-color: #e7dcc8}
+
+.adminSection {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fffef6;
+  border: 2px solid #4a5f58;
+  border-radius: 12px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  animation: anim2 1s ease
 }
 
+@keyframes anim2 { from { transform: translateY(30px); opacity: 0; }to { transform: translateY(0); opacity: 1 }}
+
+.adminSection form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem}
+
+.adminSection input, .adminSection select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #4a5f58;
+  border-radius: 8px;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1rem;
+  background-color: #faf8f2;
+  color: #2f4f4f;
+  transition: box-shadow 0.3s ease}
+
+.adminSection input:focus, .adminSection select:focus { outline: none; box-shadow: 0 0 0 3px #2f4f4f33;}
+
+.adminSection button {
+  background-color: transparent;
+  color: #2f4f4f;
+  border: 2px solid #2f4f4f;
+  padding: 0.6rem 1.4rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+  align-self: flex-start }
+
+.adminSection button:hover {background-color: #2f4f4f; color: #fff}
 
 .pago {
-  width: 250px;
-  margin: 20px 0;
-  padding: 16px;
-  background-color: #d2b48c;
-  border: 2px solid #8b5a2b;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(139, 90, 43, 0.08);
-  transition: box-shadow 0.3s;
+  max-width: 600px;
+  margin: 1rem auto;
+  background-color: #fefdf9;
+  border-left: 5px solid #2f4f4f;
+  padding: 1rem 1.5rem;
+  font-family: 'Libre Baskerville', serif;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  animation: fadeIn 1s ease-in
 }
 
-.pago:hover {
-  box-shadow: 0 4px 16px rgba(139, 90, 43, 0.18);
-}
+.pago h2 {margin: 0 0 0.3rem; color: #2f4f4f}
 
-.adminSection{
-  display: none;
-}
-/*responsividad*/
+.pago h3 {margin: 0.3rem 0; color: #4a5f58}
+
+.pago p {font-size: 0.95rem; color: #555}
+
+
 @media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    header nav ul {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    header nav ul li {
-        margin-left: 0;
-        margin-top: 10px;
-    }
-    }
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left  }
+
+  .logo {font-size: 2.2rem;}
+
+  .userSection {align-self: flex-end;margin-top: 0.5rem }
+
+  .adminSection {padding: 1.5rem}
+}
