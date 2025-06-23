@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu perfil</title>
+</head>
+<body>
+    <h2>Tu nombre</h2>
+    <p id="actualName"></p>
+    <input type="text" id="name" placeholder="Cambia tu nombre">
+    <hr>
+    <h2>Tu numero</h2>
+    <p id="actualNum"></p>
+    <input type="text" id="number" placeholder="Cambia tu numero">
+    <hr>
+    <script type="module">
+        import {  obtenerEmailUsuario } from './modules/obtenerUsuario.js';
+        import { obtenerPendiente } from './modules/obtenerPendientes.js'; 
+
+
+          let dOb = await obtenerPendiente();
+        console.log(dOb);
+        let datos = await obtenerEmailUsuario();
+        document.getElementById("actualName").appendChild(document.createElement("h3")).innerHTML =  datos.nombre;
+        console.log(datos);
+    </script>
+</body>
+</html>

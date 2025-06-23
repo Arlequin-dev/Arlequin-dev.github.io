@@ -1,12 +1,26 @@
-DROP DATABASE IF EXISTS `test21`;
-CREATE DATABASE IF NOT EXISTS `test21`;
-USE `test21`;
+DROP DATABASE IF EXISTS prueba;
+CREATE DATABASE prueba;
+USE prueba;
 
-CREATE TABLE IF NOT EXISTS listado_clientes (
-  id INT AUTO_INCREMENT, 
-  email VARCHAR(100) NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  city VARCHAR(100) NOT NULL,
-  telephone VARCHAR(15) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
+
+CREATE TABLE usuarios (
+    email VARCHAR(255) PRIMARY KEY,
+    rol ENUM('admin', 'tesorero' ,'socio') DEFAULT 'socio',
+    estado ENUM('pendiente','activo','rechazado') DEFAULT 'pendiente',
+    nombre VARCHAR(100),
+    pswd VARCHAR(100),
+    tel VARCHAR(15)
+);
+
+
+CREATE TABLE transacciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
+    usuario_email VARCHAR(255), 
+    tipo ENUM('pago', 'deuda'),
+    monto DECIMAL(10, 2),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_email) REFERENCES usuarios(email) ON DELETE CASCADE
+);
+
+

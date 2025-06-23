@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cooperativa de Viviendas</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./css/styles.css">
+   <script src="https://kit.fontawesome.com/927dd3c386.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
   <!-- Encabezado -->
@@ -17,12 +19,14 @@
         <li><a href="#contact">Contacto</a></li>
       </ul>
     </nav>
+   <i class="fa-solid fa-circle-user fa-3x" id="usuario"></i>
   </header>
 
   <!-- Hero Section -->
-  <section id="hero">
+  <section id="hero"
     <h1>Construyamos juntos un futuro mejor</h1>
     <p>Únete a nuestra cooperativa y sé parte del cambio.</p>
+    
     <div class="buttons">
       <a href="#register" class="btn">Registrarse</a>
       <a href="login.html" class="btn btn-secondary">Iniciar Sesión</a>
@@ -43,11 +47,17 @@
   <!-- Formulario de Registro -->
   <section id="register">
     <h2>Regístrate</h2>
-    <form action="/api/usuarios/registro" method="POST">
-      <input type="text" name="nombre" placeholder="Tu Nombre" required>
-      <input type="email" name="email" placeholder="Tu Email" required>
-      <button type="submit" class="btn">Enviar</button>
-    </form>
+    <form id="miFormulario" method="post" action="api.php">
+    <input type="text" name="nombre" id="name" placeholder="Nombre">
+    <input type="email" name="mail" id="email" placeholder="name@gmail.com">
+    <input type="tel" name="phone" id="tel" placeholder="099...">
+      <div class="cont password-container">
+            <input type="password" id="pwd" placeholder="*****">
+            <i class="fa-solid fa-eye" id="togglePwd"></i>
+            </div>
+  
+    <button type="button" id="enviar">Enviar</button>
+  </form>
     <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>.</p>
   </section>
 
@@ -55,11 +65,12 @@
   <section id="contact">
     <h2>Contacto</h2>
     <p>Email: contacto@cooperativa.com | Teléfono: +598 1234 5678</p>
-    <form action="/api/contacto" method="POST">
+    <form action="./php/apis/api.php" method="POST">
       <input type="text" name="nombre" placeholder="Tu Nombre" required>
       <input type="email" name="email" placeholder="Tu Email" required>
+     
       <textarea name="mensaje" placeholder="Tu Mensaje" required></textarea>
-      <button type="submit" class="btn">Enviar</button>
+      <!--<button type="submit" class="btn" onclick="enviar()">Enviar</button>-->
     </form>
   </section>
 
@@ -70,29 +81,23 @@
       <a href="#">Facebook</a> | <a href="#">Twitter</a>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="./modules/main.js"></script>
+  <script src="./modules/revealinfo.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll("section");
-
-  const revealSection = () => {
-    sections.forEach((section) => {
-      const sectionTop = section.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-
-      // Si la sección está dentro del viewport
-      if (sectionTop < windowHeight - 100) {
-        section.classList.add("visible");
-      } else {
-        section.classList.remove("visible");
-      }
-    });
-  };
-
-  // Llamar a revealSection cuando se carga la página y al hacer scroll
-  revealSection();
-  window.addEventListener("scroll", revealSection);
-});
-
+     const pass = document.getElementById("pwd");
+        const togglePwd = document.getElementById("togglePwd");
+        togglePwd.addEventListener("click", function() {
+            if (pass.type === "password") {
+                pass.type = "text";
+                togglePwd.classList.remove("fa-eye");
+                togglePwd.classList.add("fa-eye-slash");
+            } else {
+                pass.type = "password";
+                togglePwd.classList.remove("fa-eye-slash");
+                togglePwd.classList.add("fa-eye");
+            }
+        });
   </script>
 </body>
 </html>

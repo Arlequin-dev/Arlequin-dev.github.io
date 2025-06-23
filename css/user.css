@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Libre+Baskerville&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Libre Baskerville', serif;
+  background-color: #e7e3d4;
+  color: #2f3b2f;
+  animation: anim1 1s ease-in
+}
+
+#modifyuser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem}
+
+.user {
+  background-color: #fdfaf2;
+  border: 3px double #4a6540;
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 20px #0000001a;
+  animation: anim2 0.8s ease-out;
+  position: relative
+}
+
+.user::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 50px;
+  height: 50px;
+  border-top: 5px solid #4a6540;
+  border-right: 5px solid #4a6540;
+  border-radius: 0 12px 0 0}
+
+.user::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  width: 50px;
+  height: 50px;
+  border-bottom: 5px solid #4a6540;
+  border-left: 5px solid #4a6540;
+  border-radius: 0 0 0 12px
+}
+
+.user h2 {
+  font-family: 'Playfair Display', serif;
+  color: #3d5232;
+  border-bottom: 2px dashed #4a6540;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+  animation: anim3 1s ease-in-out
+}
+
+.user p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #3b3b3b;
+  animation: anim3 1s ease-in-out}
+
+.user span {font-weight: bold; color: #264d26 }
+
+.user input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 2px solid #4a6540;
+  border-radius: 10px;
+  background-color: #fffef9;
+  font-size: 1rem;
+  font-family: 'Libre Baskerville', serif;
+  transition: all 0.3s ease;
+  animation: anim4 1s ease-in
+}
+
+.user input:focus {
+  border-color: #355a38;
+  background-color: #f5f3e8;
+  box-shadow: 0 0 6px rgba(48, 90, 58, 0.3);
+  outline: none}
+
+.user button {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: #4a6540;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: 'Libre Baskerville', serif;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-bottom: 1.2rem;
+  animation: anim5 1s ease-in
+}
+
+.user button:hover {
+  background-color: #355336;
+  transform: scale(1.04);
+  box-shadow: 0 6px 12px #00000033}
+
+
+@keyframes anim1 {from { opacity: 0; } to { opacity: 1 }}
+
+@keyframes anim2 { from { transform: translateY(40px); opacity: 0 } to { transform: translateY(0); opacity: 1}}
+
+@keyframes anim3 {from { transform: translateX(-20px); opacity: 0}to { transform: translateX(0); opacity: 1}}
+
+@keyframes anim4 {from { transform: scale(0.95); opacity: 0} to { transform: scale(1); opacity: 1}}
+
+@keyframes anim5 {from { transform: translateY(20px); opacity: 0} to { transform: translateY(0); opacity: 1}}
