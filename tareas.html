@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Taras</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Fecha de creacion</th>
+                <th>Fecha de vencimiento</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+    </table>
+    <script type="module">
+        import { obtenerTareas } from './modules/crearTarea.js';
+        import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
+
+        async function cargarTareas() {
+            const email = await obtenerEmailUsuario();
+            const tareas = await obtenerTareas(email);
+
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = ''; 
+
+            tareas.forEach(tarea => {
+                const tr = document.createElement('tr');
+                if(tarea.estado === 'sc'){
+                    tarea.estado = 'Sin completar'; 
+                }
+                tr.innerHTML = `
+                    <td>${tarea.id}</td>
+                    <td>${tarea.titulo}</td>
+                    <td>${tarea.fecha_emision}</td>
+                    <td>${tarea.fecha_limite}</td>
+                    <td>${tarea.estado}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        cargarTareas();
+    </script>
+</body>
+</html>

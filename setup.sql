@@ -24,3 +24,12 @@ CREATE TABLE transacciones (
 );
 
 
+CREATE TABLE tareas(
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    titulo VARCHAR(100),
+    usuario_email VARCHAR(255), 
+    estado ENUM('completo', 'sc'), 
+    fecha_emision TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    fecha_limite DATETIME,
+    FOREIGN KEY (usuario_email) REFERENCES usuarios(email) ON DELETE CASCADE 
+)

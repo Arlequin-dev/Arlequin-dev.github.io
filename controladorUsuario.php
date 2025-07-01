@@ -51,4 +51,10 @@ class ControladorUsuario {
     public function eliminarDeuda($id,$email){
         return $this->modelo->eliminarDeuda($id,$email); 
     }
+    public function crearTarea($titulo,$email,$feclim){
+        return $this->modelo->crearTarea($titulo,$email,$feclim);
+    }
+    public function obtenerTareas($email) {
+        return $this->modelo->obtenerTareas($email);
+    }
 }

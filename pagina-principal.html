@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,47 +8,80 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="./css/principal.css">
 </head>
+
 <body>
-   <header>
+  <header>
     <div class="logo" id="logo">Bienvenido</div>
     <div class="userSection">
       <i class="fa fa-user fa-3x" id="user" aria-hidden="true"></i>
       <i class="fa fa-angle-down" aria-hidden="true"></i>
       <div class="submenu">
         <ul>
-          <li><a href="./perfil.html" aria-label="Perfil">Perfil</a></li>
+          <li><a href="./tareas.html" aria-label="Tareas">Asignacion de tareas</a></li>
           <li><a href="./usuario.html" aria-label="Configuración">Configuración</a></li>
           <li><a href="./index.html" aria-label="Cerrar sesión">Cerrar sesión</a></li>
         </ul>
       </div>
     </div>
   </header>
-    <div class="adminSection">
-  <form action="api.php" method="post">
-    <select name="deud" id="deudores"></select>
-    <input type="text" name="tituloDeuda" id="tdeuda" placeholder="titulo de la deuda">
-    <input type="text" name="numeroDeuda" id="ndeuda" placeholder="valor de la deuda">
-    <button id="generarD">Enviar</button>
-  </form>
-
-
-  <select name="aprob" id="toAp"></select>
-  <button id="btnAprobar">Aprobar</button>
-  <button>No aprobar</button>
+  <div class="adminSection">
+    <h2>Seccion de deudas</h2>
+    <form>
+      <select name="deud" id="deudores"></select>
+      <input type="text" name="tituloDeuda" id="tdeuda" placeholder="titulo de la deuda" required>
+      <input type="text" name="numeroDeuda" id="ndeuda" placeholder="valor de la deuda" required>
+      <button id="generarD">Enviar</button>
+    </form>
+    <hr>
+    <h2>Usuarios a aprobrar</h2>
+    <select name="aprob" id="toAp"></select>
+    <button id="btnAprobar">Aprobar</button>
+    <button>No aprobar</button>
+    <hr>
+    <h2>Asignacion de tareas</h2>
+    <form>
+      <select name="usuarios" id="aprobados"></select>
+      <input type="text" name="tituloTarea" id="ttarea" placeholder="titulo de la tarea">
+      <input type="datetime-local" name="limite" id="lim" required>
+      <button id="envTar">Enviar</button>
+    </form>
   </div>
+  <script>
+
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script type="module">
     import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
-    import { generarDeuda } from './modules/generarDeuda.js';
-    import { obtenerDeuda } from './modules/generarDeuda.js';
-    import { obtenerPendiente } from './modules/obtenerPendientes.js'; 
+    import { generarDeuda, obtenerDeuda, eliminarDeuda } from './modules/generarDeuda.js';
+    import { obtenerPendiente } from './modules/obtenerPendientes.js';
     import { obtenerAprobados } from './modules/obtenerAprobados.js';
+    import { crearTarea } from './modules/crearTarea.js'
 
     let usuariosAprobados = [];
 
-    window.onload = async function() {
+
+    document.getElementById("envTar").addEventListener("click", async function (e) {
+      e.preventDefault();
+      let new_time; 
+      const select = document.getElementById("aprobados");
+      const email = select.value;
+      const tituloInput = document.getElementById("ttarea");
+      const time = document.getElementById("lim")
+      new_time = document.getElementById("lim").value.toString().replace("T", " ")+":00";
+      crearTarea(tituloInput.value,email,new_time)
+    })
+
+
+    window.onload = async function () {
+      //crearTarea("Recojerhojas", "a@gmail.com","2025-07-01 18:00:00")
       let apr = await obtenerAprobados();
       usuariosAprobados = apr.usuarios.map(u => u.email); // Guarda los emails aprobados
+
+      apr.usuarios.forEach(e =>{
+        document.getElementById("aprobados").appendChild(
+          Object.assign(document.createElement("option"),{ value: e.email,innerHTML: e.email })
+        )
+      })
 
       apr.usuarios.forEach(e => {
         document.getElementById("deudores").appendChild(
@@ -61,7 +95,7 @@
       const mail = await obtenerEmailUsuario();
       const email = mail.email || '';
       try {
-        const response = await fetch('api.php?accion=rol',{
+        const response = await fetch('api.php?accion=rol', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -77,42 +111,51 @@
         } else {
           console.error('Error al obtener el rol del usuario:', data.error);
         }
-      }catch (error) {
+      } catch (error) {
         console.error('Error al obtener el rol del usuario:', error);
       }
-      const titulo = document.getElementById("tdeuda"); 
+      const titulo = document.getElementById("tdeuda");
       const monto = document.getElementById("ndeuda");
-      document.getElementById("generarD").addEventListener("click",async e =>{
-        e.preventDefault(); 
-        await generarDeuda(document.getElementById("deudores"),titulo,monto); 
-      
+      document.getElementById("generarD").addEventListener("click", async e => {
+        e.preventDefault();
+        await generarDeuda(document.getElementById("deudores"), titulo, monto);
+
       })
       document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
       const transacciones = await obtenerDeuda(email);
-      if(transacciones){
+      if (transacciones) {
         transacciones.forEach(tx => {
-          console.log(`Transacción: ${tx.id}, Monto: ${tx.monto}, Fecha: ${tx.fecha}`);
-          if(tx.tipo === 'deuda'){
-            document.body.appendChild(
-              Object.assign(document.createElement('div'), {
-                className: 'pago',
-                innerHTML: `<h2>${tx.titulo}</h2><h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`
-              })
-            );
+          if (tx.tipo === 'deuda') {
+            const div = document.createElement('div');
+            div.className = 'pago';
+            div.innerHTML = `<h2>${tx.titulo}</h2><h3>Deuda: ${tx.monto}</h3><p>Fecha: ${tx.fecha}</p>`;
+
+            const btnEliminar = document.createElement('button');
+            btnEliminar.className = 'btnEliminarDeuda';
+            btnEliminar.textContent = 'Eliminar deuda';
+            btnEliminar.dataset.deudaId = tx.id; // guardamos el id de la deuda en data attribute
+
+            btnEliminar.addEventListener('click', (e) => {
+              const deudaId = e.target.dataset.deudaId;
+              eliminarDeuda(deudaId); // llamas la función con el id de la deuda
+            });
+
+            div.appendChild(btnEliminar);
+            document.body.appendChild(div);
           }
         });
       }
     };
 
 
-    async function aprobar(){
-      const emailPendiente = document.getElementById("toAp").value; 
+    async function aprobar() {
+      const emailPendiente = document.getElementById("toAp").value;
       if (!emailPendiente) {
         alert('Selecciona un usuario pendiente');
         return;
       }
-      try{
-        const response = await fetch('api.php',{
+      try {
+        const response = await fetch('api.php', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -125,36 +168,37 @@
         const data = await response.json();
         if (data.success) {
           alert('Usuario aceptado correctamente');
-          window.location.reload(); 
+          window.location.reload();
         } else {
           alert('Error: ' + (data.error || 'No se pudo aceptar el usuario'));
         }
       }
-      catch(error){
+      catch (error) {
         console.error('Error al aprobar el usuario:', error);
         alert('Error al aprobar el usuario');
       }
     }
 
-    document.getElementById("btnAprobar").addEventListener("click", function(e) {
+    document.getElementById("btnAprobar").addEventListener("click", function (e) {
       e.preventDefault();
       aprobar();
     });
-    document.getElementById("generarD").addEventListener("click", async function(e) {
-  e.preventDefault();
-  const select = document.getElementById("deudores");
-  const email = select.value;
-  const tituloInput = document.getElementById("tdeuda");
-  const deudaInput = document.getElementById("ndeuda");
+    document.getElementById("generarD").addEventListener("click", async function (e) {
+      e.preventDefault();
+      const select = document.getElementById("deudores");
+      const email = select.value;
+      const tituloInput = document.getElementById("tdeuda");
+      const deudaInput = document.getElementById("ndeuda");
 
-  // Validar que el email existe en la lista de aprobados
-  if (!usuariosAprobados.includes(email)) {
-    alert("El usuario seleccionado no existe o no está aprobado.");
-    return;
-  }
+      // Validar que el email existe en la lista de aprobados
+      if (!usuariosAprobados.includes(email)) {
+        alert("El usuario seleccionado no existe o no está aprobado.");
+        return;
+      }
 
-  await generarDeuda(email, tituloInput, deudaInput);
-});
+      await generarDeuda(email, tituloInput, deudaInput);
+    });
   </script>
 </body>
+
 </html>

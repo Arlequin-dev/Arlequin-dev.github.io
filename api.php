@@ -40,7 +40,10 @@ switch ($metodo) {
                 case 'deuda':
                     echo json_encode($controlador->crearDeuda($input['email'], $input['titulo'], $input['monto']));
                     break;
-                default:
+                case 'tarea': 
+                    echo json_encode($controlador->crearTarea($input['titulo'],$input['email'],$input['fecha_limite']));
+                    break; 
+                    default:
                     echo json_encode(['error' => 'Acción no reconocida']);
                     break;
             }
@@ -113,6 +116,13 @@ switch ($metodo) {
                         echo json_encode(['error' => 'No se ha iniciado sesión']);
                     }
                     break;
+                case 'tareas':
+                    if (isset($_SESSION['usuario_email'])) {
+                        echo json_encode($controlador->obtenerTareas($_SESSION['usuario_email']));
+                    } else {
+                        echo json_encode(['error' => 'No se ha iniciado sesión']);
+                    }
+                    break;
                 default:
                     echo json_encode(['error' => 'Acción no reconocida']);
                     break;
@@ -125,8 +135,17 @@ switch ($metodo) {
         if (isset($_GET['accion'])) {
             switch ($_GET['accion']) {
                 case 'delDeuda':
+                    $input = json_decode(file_get_contents("php://input"), true);
+                if (isset($input['id'])) {
+                    $id = $input['id'];
                     echo json_encode($controlador->eliminarDeuda($id, $_SESSION['usuario_email']));
-                    break;
+                  
+            }else{
+                 echo json_encode([
+                        "success" => false,
+                        "error" => "ID no proporcionado"
+                    ]);
+                }
             }
 
             break;

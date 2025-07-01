@@ -186,4 +186,35 @@ class ModeloUsuario
             return ['success' => false, 'error' => 'Deuda no encontrada'];
         }
     }
+
+    public function crearTarea($titulo,$email,$feclim)
+    {
+        $stmt = $this->db->prepare("INSERT INTO tareas (titulo, usuario_email, estado,fecha_limite) VALUES (?, ?, 'sc',?)");
+        if(!$stmt){
+            return ['success' => false, 'error' => 'Error en prepare: '.$this->db->error]; 
+        }
+        $stmt->bind_param("sss",$titulo,$email,$feclim);
+        if($stmt->execute()){
+            return ['success' => true, 'message' => 'Tarea creada correctamente'];
+        }else{
+            return ['success' => false, 'error' => 'Error al crear la tarea: ' .$stmt->error]; 
+        }
+    }
+    public function obtenerTareas($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM tareas WHERE usuario_email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $tareas = [];
+            while ($row = $result->fetch_assoc()) {
+                $tareas[] = $row;
+            }
+            return ['success' => true, 'tareas' => $tareas];
+        } else {
+            return ['success' => false, 'error' => 'No se encontraron tareas para este usuario'];
+        }
+    }
 }

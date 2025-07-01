@@ -29,11 +29,16 @@ const showAlert = (options = {}, onConfirm = null, onCancel = null) => {
 
 // Éxito, acepta texto, título y opciones (p. ej. redirectUrl)
 const success = (text, title = null, options = {}) => {
-  const { redirectUrl, ...rest } = options;
+  const { redirectUrl, reloadOnSuccess = false, ...rest } = options;
   showAlert(
     { title, text, icon: 'success', ...rest },
     () => {
-      if (redirectUrl) window.location.href = redirectUrl;
+       if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else if (reloadOnSuccess) {
+        window.location.reload();
+      }
+      
     }
   );
 };
