@@ -110,16 +110,6 @@ caption {
   color: #5a4a3f;
 }
 
-.late::after {
-  position: absolute;
-  content: "●";
-  color: red;
-  font-weight: bold;
-  right: 5em;
-  transform: translateY(10%);
-  font-size: 1.5em;
-}
-
 @media (max-width: 768px) {
   section {
     padding: 30px 15px;
