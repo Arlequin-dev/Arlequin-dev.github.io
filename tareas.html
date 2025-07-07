@@ -22,16 +22,30 @@
     <script type="module">
         import { obtenerTareas } from './modules/crearTarea.js';
         import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
-
+     
         async function cargarTareas() {
             const email = await obtenerEmailUsuario();
             const tareas = await obtenerTareas(email);
+            function itsLate(fecha_final){
+                const ahora = new Date();
+                const fechaLimite = new Date(fecha_final);
+                return ahora > fechaLimite;
+            }
+
+           tareas.forEach(tarea => {
+                if(itsLate(tarea.fecha_limite)){
+                 setTimeout(() => {
+                    document.getElementById(`tarea-${tarea.id}`).classList.add('late');
+                 }, 200);
+                }
+            });
 
             const tbody = document.querySelector('tbody');
             tbody.innerHTML = ''; 
 
             tareas.forEach(tarea => {
                 const tr = document.createElement('tr');
+                tr.id = `tarea-${tarea.id}`;
                 if(tarea.estado === 'sc'){
                     tarea.estado = 'Sin completar'; 
                 }
