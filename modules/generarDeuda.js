@@ -1,4 +1,5 @@
-export async function generarDeuda(email, tituloInput ,deuda) {
+import alerts from './sweetAlerts.js';
+export async function generarDeuda(email, tituloInput, deuda) {
   if (email) {
     try {
       const response = await fetch("api.php", {
@@ -8,33 +9,33 @@ export async function generarDeuda(email, tituloInput ,deuda) {
         },
         body: JSON.stringify({
           accion: "deuda",
-          email: email.value,
-          titulo: tituloInput.value, 
+          email: email,
+          titulo: tituloInput.value,
           monto: deuda.value,
         }),
       });
 
       const text = await response.text();
-      console.log("Respuesta cruda:", text);
+
 
       let data;
       try {
         data = JSON.parse(text);
       } catch (e) {
-        console.error("No se pudo parsear JSON:", e, text);
+
       }
 
       if (data.success || data.message === "Deuda creada correctamente") {
         console.log("deuda exitosa");
-        alert("Deuda creada correctamente");
-        email.value = "";
+        alerts.success("Deuda creada correctamente", "Éxito", {
+          reloadOnSuccess:true
+        });
         tituloInput.value = "";
         deuda.value = "";
       } else {
-        console.error("Error al crear deuda:", data.error || data.message);
+        alerts.error("Error al crear la deuda: " + (data.error || data.message), "Error");
       }
     } catch (error) {
-      console.error("Error en la petición:", error);
     }
   }
 }
@@ -60,4 +61,33 @@ export async function obtenerDeuda(email) {
       return null;
     }
   }
+}
+
+export async function eliminarDeuda(id) {
+  try {
+    const response = await fetch("api.php?accion=delDeuda", {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    });
+    const data = await response.json();
+    if (data.success) {
+        alerts.success('Deuda eliminada', 'Éxito', {
+        reloadOnSuccess: true
+      });
+      return data.deudas;
+    } else {
+      console.error("Error al eliminar deudas:", data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error en la petición:", error);
+    return null;
+
+  }
+
 }

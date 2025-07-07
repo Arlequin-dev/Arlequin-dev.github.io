@@ -19,9 +19,8 @@ switch ($metodo) {
                     $resultado = $controlador->loginUsuario($input);
                     if (isset($resultado['success']) && $resultado['success'] === true) {
                         $_SESSION['usuario_email'] = $input['email'];
-                        $_SESSION['usuario_nombre'] = $resultado['nombre'];
-                    }
-                    echo json_encode($resultado);
+                        $_SESSION['usuario_nombre'] = $resultado['nombre'];                 }
+                        echo json_encode($resultado);
                     break;
                 case 'crear':
                     if (!isset($input['nombre']) || !isset($input['email']) || !isset($input['pswd']) || !isset($input['tel'])) {
@@ -41,7 +40,10 @@ switch ($metodo) {
                 case 'deuda':
                     echo json_encode($controlador->crearDeuda($input['email'], $input['titulo'], $input['monto']));
                     break;
-                default:
+                case 'tarea': 
+                    echo json_encode($controlador->crearTarea($input['titulo'],$input['email'],$input['fecha_limite']));
+                    break; 
+                    default:
                     echo json_encode(['error' => 'Acción no reconocida']);
                     break;
             }
@@ -83,7 +85,8 @@ switch ($metodo) {
                         echo json_encode([
                             'success' => true,
                             'email' => $_SESSION['usuario_email'],
-                            'nombre' => $_SESSION['usuario_nombre']
+                            'nombre' => $_SESSION['usuario_nombre'],
+                            'telefono' => $_SESSION['usuario_telefono'] ?? null
                         ]);
                     } else {
                         echo json_encode(['success' => false, 'error' => 'No hay usuario logueado']);
@@ -99,9 +102,23 @@ switch ($metodo) {
                 case 'pendientes': 
                     echo json_encode($controlador->obtenerPendientes());
                     break; 
+                case 'aprobados':
+                    if (isset($_SESSION['usuario_email'])) {
+                        echo json_encode($controlador->obtenerAprobados());
+                    } else {
+                        echo json_encode(['error' => 'No se ha iniciado sesión']);
+                    }
+                    break;
                 case 'rol':
                     if (isset($_SESSION['usuario_email'])) {
                         echo json_encode($controlador->obtenerRol($_SESSION['usuario_email']));
+                    } else {
+                        echo json_encode(['error' => 'No se ha iniciado sesión']);
+                    }
+                    break;
+                case 'tareas':
+                    if (isset($_SESSION['usuario_email'])) {
+                        echo json_encode($controlador->obtenerTareas($_SESSION['usuario_email']));
                     } else {
                         echo json_encode(['error' => 'No se ha iniciado sesión']);
                     }
@@ -118,8 +135,17 @@ switch ($metodo) {
         if (isset($_GET['accion'])) {
             switch ($_GET['accion']) {
                 case 'delDeuda':
+                    $input = json_decode(file_get_contents("php://input"), true);
+                if (isset($input['id'])) {
+                    $id = $input['id'];
                     echo json_encode($controlador->eliminarDeuda($id, $_SESSION['usuario_email']));
-                    break;
+                  
+            }else{
+                 echo json_encode([
+                        "success" => false,
+                        "error" => "ID no proporcionado"
+                    ]);
+                }
             }
 
             break;

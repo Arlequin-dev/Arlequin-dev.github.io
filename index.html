@@ -51,9 +51,12 @@
     <input type="text" name="nombre" id="name" placeholder="Nombre">
     <input type="email" name="mail" id="email" placeholder="name@gmail.com">
     <input type="tel" name="phone" id="tel" placeholder="099...">
-    <input type="password" name="pswd" id="pwd" placeholder="*****">
+      <div class="cont password-container">
+            <input type="password" id="pwd" placeholder="*****">
+            <i class="fa-solid fa-eye" id="togglePwd"></i>
+            </div>
   
-    <button type="button" onclick="enviar()">Enviar</button>
+    <button type="button" id="enviar">Enviar</button>
   </form>
     <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>.</p>
   </section>
@@ -78,8 +81,23 @@
       <a href="#">Facebook</a> | <a href="#">Twitter</a>
     </div>
   </footer>
- 
-  <script src="./modules/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="./modules/main.js"></script>
   <script src="./modules/revealinfo.js"></script>
+  <script>
+     const pass = document.getElementById("pwd");
+        const togglePwd = document.getElementById("togglePwd");
+        togglePwd.addEventListener("click", function() {
+            if (pass.type === "password") {
+                pass.type = "text";
+                togglePwd.classList.remove("fa-eye");
+                togglePwd.classList.add("fa-eye-slash");
+            } else {
+                pass.type = "password";
+                togglePwd.classList.remove("fa-eye-slash");
+                togglePwd.classList.add("fa-eye");
+            }
+        });
+  </script>
 </body>
 </html>

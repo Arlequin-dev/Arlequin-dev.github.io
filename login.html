@@ -5,19 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingresar</title>
     <link rel="stylesheet" href="./css/styles.css">
+     <script src="https://kit.fontawesome.com/927dd3c386.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <section class="login">
         <h2>Login</h2>
         <form id="miFormulario" onsubmit="return false;">
             <input type="email" id="email" placeholder="usuario@gmail.com">
-            <input type="password" id="pwd" placeholder="*****">
-            <button type="button" onclick="enviar()">Enviar</button>
+           <div class="cont password-container">
+              <input type="password" id="pwd" placeholder="*****">
+              <i class="fa-solid fa-eye" id="togglePwd"></i>
+            </div>
+            <button type="button" id="enviar">Enviar</button>
         </form>
     </section>
-
-    <script>
-        function enviar() {
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script>
+        const pass = document.getElementById("pwd");
+        const togglePwd = document.getElementById("togglePwd");
+        togglePwd.addEventListener("click", function() {
+            if (pass.type === "password") {
+                pass.type = "text";
+                togglePwd.classList.remove("fa-eye");
+                togglePwd.classList.add("fa-eye-slash");
+            } else {
+                pass.type = "password";
+                togglePwd.classList.remove("fa-eye-slash");
+                togglePwd.classList.add("fa-eye");
+            }
+        });
+     </script>
+    <script type="module">
+       import alerts from './modules/sweetAlerts.js'; 
+        document.getElementById("enviar").addEventListener("click", function() {
             fetch('api.php', {
                 method: 'POST',
                 headers: {
@@ -32,18 +52,22 @@
             .then(response => response.json())
             .then(dato => {
                 if (dato.success) {
-                    alert(`Bienvenido, ${dato.nombre}`);
-                    localStorage.setItem('ultimoEmail', email.value); 
-                    console.log(email.value)
-                    window.location.href = "pagina-principal.html";
+                    const email = document.getElementById("email");
+                    localStorage.setItem('ultimoEmail', email.value)
+                    alerts.success(null,"Éxito",{ html: `Inicio de sesión exitoso <b>${email.value}</b>`, redirectUrl: "./pagina-principal.html"});
+
+
                 } else {
-                    alert(dato.error || "Credenciales incorrectas");
+                   alerts.error("Error al iniciar sesión", "Error", {
+                        text: dato.message || "Credenciales incorrectas o usuario no encontrado",
+                        confirmButtonText: "Intentar de nuevo"
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-        }
+        }); 
     </script>
 </body>
 </html>

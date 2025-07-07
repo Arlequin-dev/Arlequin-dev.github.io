@@ -1,10 +1,11 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Libre+Baskerville&display=swap');
 
 body {
   background-color: #e7dcc8;
   font-family: 'Libre Baskerville', serif;
   color: #1a1a1a;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   padding: 0;
   line-height: 1.7}
@@ -76,6 +77,13 @@ nav ul li a {
   margin: 0.5rem;
   transition: all 0.3s ease-in-out
 }
+
+.cont{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 
 .btn:hover {background-color: #2f4f4f; color: #fff;  }
 
@@ -187,6 +195,32 @@ footer .social a {
   text-decoration: none}
 
 footer .social a:hover {text-decoration: underline}
+
+.password-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input[type="password"],
+.password-container input[type="text"] {
+  width: 100%;
+  padding-right: 2.5rem; /* espacio para el icono */
+  box-sizing: border-box;
+}
+
+.password-container i.fa-eye,
+.password-container i.fa-eye-slash {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #4a5f58;
+  font-size: 1.2rem;
+  z-index: 2;
+}
 
 @media (max-width: 768px) {
   nav ul {

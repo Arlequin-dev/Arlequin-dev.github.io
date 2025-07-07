@@ -5,7 +5,8 @@ class ModeloUsuario
 
     public function __construct()
     {
-        $this->db = new mysqli("localhost", "root", "", "prueba");
+        $this->db = new mysqli("mi_mysql", "usuario", "password123", "prueba");
+
     }
 
     public function insertarUsuario($nombre,$rol, $email, $pswd, $tel)
@@ -69,6 +70,15 @@ class ModeloUsuario
         }
     }
 
+    public function existeUsuario($email) {
+    $stmt = $this->db->prepare("SELECT email FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    return $stmt->num_rows > 0;
+}
+
+
     public function obtenerPendientes() {
         $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE estado = 'pendiente'");
         $stmt->execute(); 
@@ -106,21 +116,51 @@ class ModeloUsuario
             return ['success' => false, 'error' => 'Usuario no encontrado'];
         }
     }
-    
-    public function crearDeuda($email, $titulo, $monto)
+
+    public function obtenerAprobados()
     {
-        $stmt = $this->db->prepare("INSERT INTO transacciones (usuario_email, titulo, tipo, monto) VALUES (?, ?, 'deuda', ?)");
+        $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE estado = 'activo'");
         if (!$stmt) {
             return ['success' => false, 'error' => 'Error en prepare: ' . $this->db->error];
         }
-        $stmt->bind_param("ssd", $email, $titulo, $monto);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($stmt->execute()) {
-            return ['success' => true, 'message' => 'Deuda creada correctamente'];
+        if ($result->num_rows > 0) {
+            $usuarios = [];
+            while ($row = $result->fetch_assoc()) {
+                $usuarios[] = $row;
+            }
+            return ['success' => true, 'usuarios' => $usuarios];
         } else {
-            return ['success' => false, 'error' => 'Error al crear deuda: ' . $stmt->error];
+            return ['success' => false, 'error' => 'No se encontraron usuarios aprobados'];
         }
     }
+    
+   public function crearDeuda($email, $titulo, $monto)
+{
+
+    if (!$this->existeUsuario($email)) {
+        return ['success' => false, 'error' => 'El usuario no existe'];
+    }
+
+    if (!is_numeric($monto)) {
+        return ['success' => false, 'error' => 'Monto inválido'];
+    }
+
+    $stmt = $this->db->prepare("INSERT INTO transacciones (usuario_email, titulo, tipo, monto) VALUES (?, ?, 'deuda', ?)");
+    if (!$stmt) {
+        return ['success' => false, 'error' => 'Error en prepare: ' . $this->db->error];
+    }
+    $stmt->bind_param("ssd", $email, $titulo, $monto);
+
+    if ($stmt->execute()) {
+        return ['success' => true, 'message' => 'Deuda creada correctamente'];
+    } else {
+        return ['success' => false, 'error' => 'Error al crear deuda: ' . $stmt->error];
+    }
+}
+
     public function obtenerDeudas($email)
     {
         $stmt = $this->db->prepare("SELECT * FROM transacciones WHERE usuario_email = ?");
@@ -138,15 +178,44 @@ class ModeloUsuario
             return ['success' => false, 'error' => 'No se encontraron deudas para este usuario'];
         }
     }
-    public function eliminarDeuda($id,$email){
-        $stmt = $this->db->prepare("DELETE FROM transacciones WHERE id = ? AND email = ?"); 
-        $stmt->bind_param("ss", $id,$email); 
-        $stmt->execute(); 
-       if($stmt->execute()){
-        return ['success' => true, 'message' => 'Deuda eliminada correctamente'];
-       }else{
-        return ['success' => false, 'error' => 'Deuda no encontrada']; 
-       }
-        
+    public function eliminarDeuda($id, $email){
+        $stmt = $this->db->prepare("DELETE FROM transacciones WHERE id = ? AND usuario_email = ?");
+        $stmt->bind_param("is", $id, $email); // id debe ser int, email string
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Deuda eliminada correctamente'];
+        } else {
+            return ['success' => false, 'error' => 'Deuda no encontrada'];
+        }
+    }
+
+    public function crearTarea($titulo,$email,$feclim)
+    {
+        $stmt = $this->db->prepare("INSERT INTO tareas (titulo, usuario_email, estado,fecha_limite) VALUES (?, ?, 'sc',?)");
+        if(!$stmt){
+            return ['success' => false, 'error' => 'Error en prepare: '.$this->db->error]; 
+        }
+        $stmt->bind_param("sss",$titulo,$email,$feclim);
+        if($stmt->execute()){
+            return ['success' => true, 'message' => 'Tarea creada correctamente'];
+        }else{
+            return ['success' => false, 'error' => 'Error al crear la tarea: ' .$stmt->error]; 
+        }
+    }
+    public function obtenerTareas($email)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM tareas WHERE usuario_email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $tareas = [];
+            while ($row = $result->fetch_assoc()) {
+                $tareas[] = $row;
+            }
+            return ['success' => true, 'tareas' => $tareas];
+        } else {
+            return ['success' => false, 'error' => 'No se encontraron tareas para este usuario'];
+        }
     }
 }

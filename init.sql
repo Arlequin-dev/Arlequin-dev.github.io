@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS prueba;
 CREATE DATABASE prueba;
 USE prueba;
 
-
 CREATE TABLE usuarios (
     email VARCHAR(255) PRIMARY KEY,
     rol ENUM('admin', 'tesorero' ,'socio') DEFAULT 'socio',
@@ -11,7 +10,6 @@ CREATE TABLE usuarios (
     pswd VARCHAR(100),
     tel VARCHAR(15)
 );
-
 
 CREATE TABLE transacciones (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,7 +21,6 @@ CREATE TABLE transacciones (
     FOREIGN KEY (usuario_email) REFERENCES usuarios(email) ON DELETE CASCADE
 );
 
-
 CREATE TABLE tareas(
     id INT AUTO_INCREMENT PRIMARY KEY, 
     titulo VARCHAR(100),
@@ -32,4 +29,4 @@ CREATE TABLE tareas(
     fecha_emision TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     fecha_limite DATETIME,
     FOREIGN KEY (usuario_email) REFERENCES usuarios(email) ON DELETE CASCADE 
-)
+);

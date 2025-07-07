@@ -18,7 +18,6 @@ section {
 section h2 {
   font-size: 2.2em;
   margin-bottom: 20px;
-  font-family: "Georgia", serif;
 }
 
 form {
@@ -39,7 +38,6 @@ form textarea {
   border: 2px solid #8b5a2b;
   border-radius: 6px;
   background-color: #fffbe6;
-  font-family: sans-serif    ;
   font-size: 1em;
   color: #5a4a3f;
   transition: box-shadow 0.3s, border-color 0.3s;
@@ -58,7 +56,6 @@ form button {
   border: none;
   padding: 10px 16px;
   border-radius: 8px;
-  font-family: sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -67,23 +64,102 @@ form button:hover {
   background-color: #5a4a3f;
 }
 
-section input {
-  box-shadow: 0 0 8px rgba(139, 90, 43, 0.5);
-  border-color: #5a4a3f;
-  outline: none;
-  border-radius: 4px;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #fffbe6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #d2b48c;
 }
 
-section button {
-  background-color: #8b5a2b;
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-family: sans-serif;
-  cursor: pointer;
+thead {
+  background-color: #f6f1df;
+  border-bottom: 3px solid #d2b48c;
+}
+
+thead th {
+  padding: 15px;
+  text-align: left;
+  font-size: 1.1em;
+  color: #5a4a3f;
+}
+
+tbody tr {
+  border-bottom: 1px solid #d2b48c;
   transition: background-color 0.3s;
 }
 
-section button:hover {background-color: #5a4a3f;}
+tbody tr:nth-child(even) {
+  background-color: #fdf8e1;
+}
 
+tbody tr:hover {
+  background-color: #f6f1df;
+}
+
+tbody td {
+  padding: 12px;
+  color: #5a4a3f;
+}
+
+caption {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #5a4a3f;
+}
+
+.late::after {
+  position: absolute;
+  content: "●";
+  color: red;
+  font-weight: bold;
+  right: 5em;
+  transform: translateY(10%);
+  font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 30px 15px;
+  }
+
+  section h2 {
+    font-size: 1.8em;
+  }
+
+  form {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 0.9em;
+  }
+
+  thead th,
+  tbody td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  section h2 {
+    font-size: 1.6em;
+  }
+
+  form input,
+  form textarea {
+    font-size: 0.9em;
+  }
+
+  form button {
+    padding: 8px 12px;
+  }
+}

@@ -1,7 +1,8 @@
-    document.getElementById("usuario").addEventListener("click", function() {
+  import alerts from './sweetAlerts.js';
+  document.getElementById("usuario").addEventListener("click", function() {
       window.location.href = "login.html";
     });
-      function enviar() {
+     document.getElementById("enviar").addEventListener("click", function() {
       fetch('api.php', {
         method: 'POST',
         headers: {
@@ -19,16 +20,16 @@
       .then(response => response.json())
       .then(dato => {
        if(dato.success){
+        alerts.success("Usuario creado correctamente", "Éxito");
          document.getElementById("name").value = ""; 
         document.getElementById("email").value = ""; 
         document.getElementById("pwd").value = ""; 
         document.getElementById("tel").value = ""; 
-        alert("Datos enviados")
        }else{
-         alert("Error al enviar los datos: " + dato.error);
+         alerts.error("Error al crear el usuario: " + dato.error, "Error");
        }
       })
       .catch(error => {
         console.error('Error:', error);
       });
-    }
+    }); 

@@ -8,7 +8,7 @@ export async function obtenerEmailUsuario() {
     });
     const data = await response.json();
     if (data.success) {
-      return data.email;
+      return data;
     } else {
       console.error("Error:", data.error);
       return null;
