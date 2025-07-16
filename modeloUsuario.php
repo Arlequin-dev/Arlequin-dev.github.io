@@ -5,7 +5,7 @@ class ModeloUsuario
 
     public function __construct()
     {
-        $this->db = new mysqli("mi_mysql", "usuario", "password123", "prueba");
+        $this->db = new mysqli("localhost", "root", "", "prueba");
 
     }
 

@@ -17,12 +17,10 @@ header {
   border-bottom: 5px solid #4a5f58;
   border-top: 5px solid #4a5f58}
 
-header .logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  text-transform: uppercase;
-  color: #2f4f4f;
-  margin-bottom: 0.3rem}
+header img{
+  width: 200px;
+  height: auto;
+}
 
 nav ul {
   list-style: none;

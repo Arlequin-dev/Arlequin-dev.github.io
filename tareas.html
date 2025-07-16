@@ -7,6 +7,7 @@
     <title>Taras</title>
 </head>
 <body>
+    <button id="regresar"><</button>
     <table>
         <thead>
             <tr>
@@ -19,6 +20,11 @@
         </thead>
         <tbody>
     </table>
+    <script>
+        document.getElementById('regresar').addEventListener('click', () => {
+            window.location.href = './pagina-principal.html';
+        });
+    </script>
     <script type="module">
         import { obtenerTareas } from './modules/crearTarea.js';
         import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';

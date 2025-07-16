@@ -56,6 +56,7 @@
     import { obtenerPendiente } from './modules/obtenerPendientes.js';
     import { obtenerAprobados } from './modules/obtenerAprobados.js';
     import { crearTarea } from './modules/crearTarea.js'
+    import alert from './modules/sweetAlerts.js';    
 
     let usuariosAprobados = [];
 
@@ -73,7 +74,6 @@
 
 
     window.onload = async function () {
-      //crearTarea("Recojerhojas", "a@gmail.com","2025-07-01 18:00:00")
       let apr = await obtenerAprobados();
       usuariosAprobados = apr.usuarios.map(u => u.email); // Guarda los emails aprobados
 
@@ -151,7 +151,7 @@
     async function aprobar() {
       const emailPendiente = document.getElementById("toAp").value;
       if (!emailPendiente) {
-        alert('Selecciona un usuario pendiente');
+        alerts.error('Por favor, selecciona un usuario pendiente para aprobar.', 'Error');
         return;
       }
       try {
@@ -167,15 +167,16 @@
         });
         const data = await response.json();
         if (data.success) {
-          alert('Usuario aceptado correctamente');
+          alerts.success('Usuario aprobado correctamente', '¡Éxito!', {
+            reloadOnSuccess: true
+          });
           window.location.reload();
         } else {
-          alert('Error: ' + (data.error || 'No se pudo aceptar el usuario'));
+         alerts.error(data.error || 'Error al aprobar el usuario', 'Error');
         }
       }
       catch (error) {
-        console.error('Error al aprobar el usuario:', error);
-        alert('Error al aprobar el usuario');
+        alerts.error('Error al aprobar el usuario', 'Error');
       }
     }
 
@@ -192,7 +193,7 @@
 
       // Validar que el email existe en la lista de aprobados
       if (!usuariosAprobados.includes(email)) {
-        alert("El usuario seleccionado no existe o no está aprobado.");
+       alerts.error('El usuario seleccionado no está aprobado.', 'Error');
         return;
       }
 
