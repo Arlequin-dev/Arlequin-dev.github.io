@@ -218,4 +218,14 @@ class ModeloUsuario
             return ['success' => false, 'error' => 'No se encontraron tareas para este usuario'];
         }
     }
+    public function completarTarea($id)
+    {
+        $stmt = $this->db->prepare("UPDATE tareas SET estado = 'completo' WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            return ['success' => true, 'message' => 'Tarea completada correctamente'];
+        } else {
+            return ['success' => false, 'error' => 'Error al completar la tarea: ' . $stmt->error];
+        }
+    }
 }
