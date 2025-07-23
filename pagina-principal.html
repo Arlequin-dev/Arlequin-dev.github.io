@@ -50,6 +50,7 @@
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.1/jspdf.umd.min.js"></script>
   <script type="module">
     import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
     import { generarDeuda, obtenerDeuda, eliminarDeuda } from './modules/generarDeuda.js';
@@ -59,7 +60,8 @@
     import alert from './modules/sweetAlerts.js';    
 
     let usuariosAprobados = [];
-
+     let lastid; 
+  
 
     document.getElementById("envTar").addEventListener("click", async function (e) {
       e.preventDefault();
@@ -116,13 +118,23 @@
       }
       const titulo = document.getElementById("tdeuda");
       const monto = document.getElementById("ndeuda");
+      const electronicmail = document.getElementById("aprobados").value
       document.getElementById("generarD").addEventListener("click", async e => {
         e.preventDefault();
+        window.open("./factura.html", "_blank")
         await generarDeuda(document.getElementById("deudores"), titulo, monto);
 
       })
       document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
+
+     
+      
       const transacciones = await obtenerDeuda(email);
+      console.log(transacciones)
+      transacciones.forEach(tx =>{
+        console.log(tx.id)
+       lastid = tx.id  
+      })
       if (transacciones) {
         transacciones.forEach(tx => {
           if (tx.tipo === 'deuda') {
@@ -186,8 +198,10 @@
     });
     document.getElementById("generarD").addEventListener("click", async function (e) {
       e.preventDefault();
+      localStorage.setItem("lsId", lastid)
       const select = document.getElementById("deudores");
       const email = select.value;
+      localStorage.setItem("emailDeuda", email)
       const tituloInput = document.getElementById("tdeuda");
       const deudaInput = document.getElementById("ndeuda");
 

@@ -17,10 +17,12 @@ header {
   border-bottom: 5px solid #4a5f58;
   border-top: 5px solid #4a5f58}
 
-header img{
-  width: 200px;
-  height: auto;
-}
+header .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: #2f4f4f;
+  margin-bottom: 0.3rem}
 
 nav ul {
   list-style: none;
@@ -61,7 +63,10 @@ nav ul li a {
 }
 
 #hero p {font-style: italic; color: #333}
-
+img{
+  width: 200px;
+  height: auto;
+}
 .buttons {margin-top: 1rem}
 
 .btn {

@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Taras</title>
+    <title>Tareas</title>
 </head>
 <body>
-    <button id="regresar"><</button>
+     <header>
+    <img src="./isologo mutuared-Photoroom.png" alt="">
+  </header>
+
     <table>
         <thead>
             <tr>
@@ -20,31 +23,11 @@
         </thead>
         <tbody>
     </table>
-    <input type="button" value="Completar tarea" id="completarTarea">
-    <script>
-        document.getElementById('regresar').addEventListener('click', () => {
-            window.location.href = './pagina-principal.html';
-        });
-    </script>
+    <button id="compT">completar tarea</button>
     <script type="module">
         import { obtenerTareas, completarTarea } from './modules/crearTarea.js';
         import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
      
-        document.getElementById('completarTarea').addEventListener('click', async () => {
-            const email = await obtenerEmailUsuario();
-            const tareaId = prompt("Ingrese el ID de la tarea que desea completar:");
-            if (tareaId) {
-                const response = await completarTarea(tareaId);
-                if (response.success) {
-                    alert(response.message);
-                    cargarTareas();
-                } else {
-                    alert(response.error);
-                }
-            } else {
-                alert("ID de tarea no proporcionada.");
-            }
-        });
         async function cargarTareas() {
             const email = await obtenerEmailUsuario();
             const tareas = await obtenerTareas(email);
@@ -83,6 +66,16 @@
         }
 
         cargarTareas();
+        document.getElementById("compT").addEventListener("click", async function () {
+            const email = await obtenerEmailUsuario();
+            const tareaId = prompt("Ingrese el ID de la tarea que desea completar:");
+            if (tareaId) {
+               completarTarea(id); 
+                alert("Tarea completada exitosamente.");
+                cargarTareas();
+        
+        }   
+     });
     </script>
 </body>
 </html>
