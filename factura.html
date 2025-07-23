@@ -156,6 +156,7 @@
 
         // Función para generar la factura
         document.getElementById("btn-generate").addEventListener("click", async () => {
+            console.log(deudaGenerada.usuario_email)
             // Aquí obtienes la deuda de la API o de tu base de datos
             let deuda = await obtenerDeuda(localStorage.getItem("emailDeuda"));
             let id = localStorage.getItem("lsId");
@@ -163,11 +164,7 @@
             console.log(deudaGenerada)
             if (deudaGenerada) {
                 // Mostrar la factura en el DOM
-                document.getElementById('cliente-factura').textContent = `Cliente: ${deudaGenerada.usuario_email}`;
-                document.getElementById('producto-factura').textContent = `Producto/Servicio: Deuda`;
-                document.getElementById('cantidad-factura').textContent = `Cantidad: 1`; // La deuda es 1 ítem
-                document.getElementById('descuento-factura').textContent = `Descuento: 0%`;
-                document.getElementById('total-factura').textContent = `Total a Pagar: $${deudaGenerada.monto}`;
+               
 
                 // Mostrar el botón para descargar el PDF
                 btnPDF.style.display = 'inline-block';
@@ -179,10 +176,13 @@
 
         // Función para descargar el PDF
         
-            window.onload = function(){
+            window.onload = async function(){
+            let deuda = await obtenerDeuda(localStorage.getItem("emailDeuda"));
+            let id = localStorage.getItem("lsId");
+            let deudaGenerada = deuda[id]; // Obtener la deuda usando el ID almacenado
+            console.log(deudaGenerada)
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
             // Configurar los márgenes y la tipografía
             doc.setFont('Arial', 'normal');
             doc.setFontSize(12);
@@ -190,15 +190,15 @@
             // Título de la factura
             doc.setFontSize(16);
             doc.text('Factura', 105, 20, null, null, 'center');
-
+           
             // Datos del cliente y productos
             doc.setFontSize(12);
-            doc.text(`Cliente: ${document.getElementById('cliente-factura').textContent.split(': ')[1]}`, 10, 30);
+            doc.text(`Cliente: Cliente: ${deudaGenerada.usuario_email}`, 10, 30);
             doc.text(`Producto/Servicio: Deuda`, 10, 40);
             doc.text(`Cantidad: 1`, 10, 50);
-            doc.text(`Precio Unitario: $${document.getElementById('precio-factura').textContent.split('$')[1]}`, 10, 60);
+            doc.text(`Precio Unitario: $${deudaGenerada.monto}`, 10, 60);
             doc.text(`Descuento: 0%`, 10, 70);
-            doc.text(`Total a Pagar: $${document.getElementById('total-factura').textContent.split('$')[1]}`, 10, 80);
+            doc.text(`Total a Pagar: ${deudaGenerada.monto}`, 10, 80);
 
             // Dibujar una línea para separar la tabla
             doc.line(10, 90, 200, 90); // X1, Y1, X2, Y2
@@ -208,7 +208,7 @@
                 startY: 95,
                 head: [['Producto/Servicio', 'Cantidad', 'Precio Unitario', 'Total']],
                 body: [
-                    ['Deuda', '1', `$${document.getElementById('precio-factura').textContent.split('$')[1]}`, `$${document.getElementById('total-factura').textContent.split('$')[1]}`]
+                    ['Deuda', '1', `$${deudaGenerada.monto}`, `$${deudaGenerada.monto}`]
                 ],
                 theme: 'grid',
                 styles: {
