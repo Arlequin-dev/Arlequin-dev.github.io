@@ -63,7 +63,10 @@ nav ul li a {
 }
 
 #hero p {font-style: italic; color: #333}
-
+img{
+  width: 200px;
+  height: auto;
+}
 .buttons {margin-top: 1rem}
 
 .btn {

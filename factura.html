@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Factura PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        .input-field {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .invoice {
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .invoice-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .invoice-detail {
+            margin-bottom: 15px;
+        }
+
+        .btn-generate {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .btn-generate:hover {
+            background-color: #45a049;
+        }
+
+        .btn-pdf {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .btn-pdf:hover {
+            background-color: #007B9D;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .invoice-table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .invoice-table td {
+            color: #555;
+        }
+
+        .total-row {
+            font-weight: bold;
+        }
+
+        .invoice-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Generador de Factura</h1>
+        <label for="cliente">Nombre del Cliente:</label>
+        <input type="text" id="cliente" class="input-field" placeholder="Nombre del cliente">
+
+        <label for="producto">Producto o Servicio:</label>
+        <input type="text" id="producto" class="input-field" placeholder="Producto o servicio">
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" class="input-field" placeholder="Cantidad de productos o servicios">
+
+        <label for="precio">Precio por unidad:</label>
+        <input type="number" id="precio" class="input-field" placeholder="Precio por unidad" step="0.01">
+
+        <label for="descuento">Descuento (%):</label>
+        <input type="number" id="descuento" class="input-field" placeholder="Descuento" step="0.01">
+
+        <button class="btn-generate" id="btn-generate">Generar Factura</button>
+
+        <div class="invoice" id="factura" style="display: none;">
+            <div class="invoice-header">Factura</div>
+            <div class="invoice-detail" id="cliente-factura"></div>
+            <div class="invoice-detail" id="producto-factura"></div>
+            <div class="invoice-detail" id="cantidad-factura"></div>
+            <div class="invoice-detail" id="precio-factura"></div>
+            <div class="invoice-detail" id="descuento-factura"></div>
+            <div class="invoice-detail" id="total-factura"></div>
+        </div>
+
+        <button class="btn-pdf" id="btn-pdf">Descargar Factura en PDF</button>
+    </div>
+
+    <!-- Agregar jsPDF y autoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
+
+    <script type="module">
+        import { obtenerDeuda } from './modules/generarDeuda.js';
+
+        // Variables de los campos de la factura
+        let cliente = document.getElementById('cliente');
+        let producto = document.getElementById('producto');
+        let cantidad = document.getElementById('cantidad');
+        let precio = document.getElementById('precio');
+        let descuento = document.getElementById('descuento');
+        let facturaDiv = document.getElementById('factura');
+        let btnPDF = document.getElementById('btn-pdf');
+
+        // Función para generar la factura
+        document.getElementById("btn-generate").addEventListener("click", async () => {
+            console.log(deudaGenerada.usuario_email)
+            // Aquí obtienes la deuda de la API o de tu base de datos
+            let deuda = await obtenerDeuda(localStorage.getItem("emailDeuda"));
+            let id = localStorage.getItem("lsId");
+            let deudaGenerada = deuda[id]; // Obtener la deuda usando el ID almacenado
+            console.log(deudaGenerada)
+            if (deudaGenerada) {
+                // Mostrar la factura en el DOM
+               
+
+                // Mostrar el botón para descargar el PDF
+                btnPDF.style.display = 'inline-block';
+                facturaDiv.style.display = 'block';
+            } else {
+                alert('No se encontró la deuda.');
+            }
+        });
+
+        // Función para descargar el PDF
+        
+            window.onload = async function(){
+            let deuda = await obtenerDeuda(localStorage.getItem("emailDeuda"));
+            let id = localStorage.getItem("lsId");
+            let deudaGenerada = deuda[id]; // Obtener la deuda usando el ID almacenado
+            console.log(deudaGenerada)
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            // Configurar los márgenes y la tipografía
+            doc.setFont('Arial', 'normal');
+            doc.setFontSize(12);
+
+            // Título de la factura
+            doc.setFontSize(16);
+            doc.text('Factura', 105, 20, null, null, 'center');
+           
+            // Datos del cliente y productos
+            doc.setFontSize(12);
+            doc.text(`Cliente: Cliente: ${deudaGenerada.usuario_email}`, 10, 30);
+            doc.text(`Producto/Servicio: Deuda`, 10, 40);
+            doc.text(`Cantidad: 1`, 10, 50);
+            doc.text(`Precio Unitario: $${deudaGenerada.monto}`, 10, 60);
+            doc.text(`Descuento: 0%`, 10, 70);
+            doc.text(`Total a Pagar: ${deudaGenerada.monto}`, 10, 80);
+
+            // Dibujar una línea para separar la tabla
+            doc.line(10, 90, 200, 90); // X1, Y1, X2, Y2
+
+            // Añadir detalles a la tabla
+            doc.autoTable({
+                startY: 95,
+                head: [['Producto/Servicio', 'Cantidad', 'Precio Unitario', 'Total']],
+                body: [
+                    ['Deuda', '1', `$${deudaGenerada.monto}`, `$${deudaGenerada.monto}`]
+                ],
+                theme: 'grid',
+                styles: {
+                    fontSize: 10,
+                    valign: 'middle',
+                }
+            });
+
+            // Descargar el PDF
+            doc.save('factura.pdf');
+        }
+
+    </script>
+</body>
+
+</html>

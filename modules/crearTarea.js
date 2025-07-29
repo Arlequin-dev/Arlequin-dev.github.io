@@ -57,3 +57,27 @@ export async function obtenerTareas(email) {
         }
     }
 }
+export async function completarTarea(id) {
+    try {
+        const response = await fetch("api.php", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                accion: "completarTarea",
+                id: id,
+            }),
+        });
+        const data = await response.json();
+        if (data.success) {
+            alerts.success("Tarea completada correctamente", "Éxito", {
+                reloadOnSuccess: true
+            });
+        } else {
+            alerts.error("Error al completar la tarea: " + (data.error || data.message), "Error");
+        }
+    } catch (error) {
+        console.error("Error al completar la tarea:", error);
+    }
+}

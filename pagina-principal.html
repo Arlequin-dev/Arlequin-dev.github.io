@@ -50,15 +50,18 @@
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.1/jspdf.umd.min.js"></script>
   <script type="module">
     import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
     import { generarDeuda, obtenerDeuda, eliminarDeuda } from './modules/generarDeuda.js';
     import { obtenerPendiente } from './modules/obtenerPendientes.js';
     import { obtenerAprobados } from './modules/obtenerAprobados.js';
     import { crearTarea } from './modules/crearTarea.js'
+    import alert from './modules/sweetAlerts.js';    
 
     let usuariosAprobados = [];
-
+     let lastid; 
+  
 
     document.getElementById("envTar").addEventListener("click", async function (e) {
       e.preventDefault();
@@ -73,7 +76,6 @@
 
 
     window.onload = async function () {
-      //crearTarea("Recojerhojas", "a@gmail.com","2025-07-01 18:00:00")
       let apr = await obtenerAprobados();
       usuariosAprobados = apr.usuarios.map(u => u.email); // Guarda los emails aprobados
 
@@ -116,13 +118,23 @@
       }
       const titulo = document.getElementById("tdeuda");
       const monto = document.getElementById("ndeuda");
+      const electronicmail = document.getElementById("aprobados").value
       document.getElementById("generarD").addEventListener("click", async e => {
         e.preventDefault();
+        window.open("./factura.html", "_blank")
         await generarDeuda(document.getElementById("deudores"), titulo, monto);
 
       })
       document.getElementById("logo").textContent = `Bienvenido, ${email || ''}`;
+
+     
+      
       const transacciones = await obtenerDeuda(email);
+      console.log(transacciones)
+      transacciones.forEach(tx =>{
+        console.log(tx.id)
+       lastid = tx.id  
+      })
       if (transacciones) {
         transacciones.forEach(tx => {
           if (tx.tipo === 'deuda') {
@@ -151,7 +163,7 @@
     async function aprobar() {
       const emailPendiente = document.getElementById("toAp").value;
       if (!emailPendiente) {
-        alert('Selecciona un usuario pendiente');
+        alerts.error('Por favor, selecciona un usuario pendiente para aprobar.', 'Error');
         return;
       }
       try {
@@ -167,15 +179,16 @@
         });
         const data = await response.json();
         if (data.success) {
-          alert('Usuario aceptado correctamente');
+          alerts.success('Usuario aprobado correctamente', '¡Éxito!', {
+            reloadOnSuccess: true
+          });
           window.location.reload();
         } else {
-          alert('Error: ' + (data.error || 'No se pudo aceptar el usuario'));
+         alerts.error(data.error || 'Error al aprobar el usuario', 'Error');
         }
       }
       catch (error) {
-        console.error('Error al aprobar el usuario:', error);
-        alert('Error al aprobar el usuario');
+        alerts.error('Error al aprobar el usuario', 'Error');
       }
     }
 
@@ -185,14 +198,16 @@
     });
     document.getElementById("generarD").addEventListener("click", async function (e) {
       e.preventDefault();
+      localStorage.setItem("lsId", lastid)
       const select = document.getElementById("deudores");
       const email = select.value;
+      localStorage.setItem("emailDeuda", email)
       const tituloInput = document.getElementById("tdeuda");
       const deudaInput = document.getElementById("ndeuda");
 
       // Validar que el email existe en la lista de aprobados
       if (!usuariosAprobados.includes(email)) {
-        alert("El usuario seleccionado no existe o no está aprobado.");
+       alerts.error('El usuario seleccionado no está aprobado.', 'Error');
         return;
       }
 

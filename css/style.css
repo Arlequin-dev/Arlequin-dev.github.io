@@ -1,155 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&display=swap');
+
+* {margin: 0; padding: 0; box-sizing: border-box}
+
 body {
-  font-family: "Georgia", serif;
-  line-height: 1.8;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: #fdf8e1;
-  color: #5a4a3f;
+  font-family: 'Libre Baskerville', serif;
+  background-color: #e7dcc8;
+  color: #2f4f4f;
+  padding: 2rem;
 }
 
-section {
-  padding: 50px 20px;
+header {
+  background-color: #e7dcc8;
+  padding: 1.5rem 2rem;
   text-align: center;
-  background-color: #f6f1df;
-  border-bottom: 3px solid #d2b48c;
+  border-bottom: 5px solid #4a5f58;
+  border-top: 5px solid #4a5f58}
+
+img{
+  width: 200px;
+  height: auto;
+}
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  border-top: 1px solid #4a5f58;
+  border-bottom: 1px solid #4a5f58;
+  padding: 0.5rem 0
 }
 
-section h2 {
-  font-size: 2.2em;
-  margin-bottom: 20px;
+nav ul li a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #2f4f4f;
+  text-transform: uppercase;
+  font-family: 'Playfair Display', serif
 }
 
-form {
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #fffbe6;
-  padding: 15px;
-  border: 2px solid #d2b48c;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+#usuario {color: #fff}
 
-form input,
-form textarea {
-  width: 96%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 2px solid #8b5a2b;
-  border-radius: 6px;
-  background-color: #fffbe6;
-  font-size: 1em;
-  color: #5a4a3f;
-  transition: box-shadow 0.3s, border-color 0.3s;
-}
-
-form input:focus,
-form textarea:focus {
-  box-shadow: 0 0 8px rgba(139, 90, 43, 0.5);
-  border-color: #5a4a3f;
-  outline: none;
-}
-
-form button {
-  background-color: #8b5a2b;
+#tareas-hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  background-color: #4a5f58;
   color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  border-bottom: 3px solid #2f4f4f
 }
 
-form button:hover {
-  background-color: #5a4a3f;
+#tareas-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase
 }
+
+#tareas-hero p {font-style: italic; font-size: 1.1rem}
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  background-color: #fffbe6;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #d2b48c;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05)
 }
 
-thead {
-  background-color: #f6f1df;
-  border-bottom: 3px solid #d2b48c;
+thead {background-color: #d6cbb8}
+
+th, td {padding: 1rem; text-align: left; border-bottom: 1px solid #eee
 }
 
-thead th {
-  padding: 15px;
-  text-align: left;
-  font-size: 1.1em;
-  color: #5a4a3f;
+th {
+  font-family: 'Playfair Display', serif;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  color: #2f4f4f
 }
 
-tbody tr {
-  border-bottom: 1px solid #d2b48c;
-  transition: background-color 0.3s;
+td {font-size: 0.95rem; color: #333}
+
+tr:hover {background-color: #f0e6d9; transition: background-color 0.3s ease}
+
+/* las atrasadas */
+tr.late {background-color: #ffe5e5 !important; color: #722; font-weight: bold}
+
+footer {
+  text-align: center;
+  background-color: #e7dcc8;
+  padding: 1.5rem 0;
+  border-top: 2px solid #4a5f58;
+  color: #555;
+  font-size: 0.85rem
 }
 
-tbody tr:nth-child(even) {
-  background-color: #fdf8e1;
-}
-
-tbody tr:hover {
-  background-color: #f6f1df;
-}
-
-tbody td {
-  padding: 12px;
-  color: #5a4a3f;
-}
-
-caption {
-  font-size: 1.2em;
-  margin-bottom: 10px;
+footer .social a {
+  color: #2f4f4f;
   font-weight: bold;
-  color: #5a4a3f;
-}
+  margin: 0 0.5rem;
+  text-decoration: none}
+
+footer .social a:hover {text-decoration: underline}
 
 @media (max-width: 768px) {
-  section {
-    padding: 30px 15px;
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem
   }
 
-  section h2 {
-    font-size: 1.8em;
+  nav ul {flex-direction: column;gap: 0.5rem}
+
+  table, thead, tbody, th, td, tr {display: block}
+
+  thead {display: none}
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 1rem
   }
 
-  form {
-    padding: 10px;
+  td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid #eee
   }
 
-  table {
-    font-size: 0.9em;
-  }
-
-  thead th,
-  tbody td {
-    padding: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  section h2 {
-    font-size: 1.6em;
-  }
-
-  form input,
-  form textarea {
-    font-size: 0.9em;
-  }
-
-  form button {
-    padding: 8px 12px;
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #4a5f58
   }
 }

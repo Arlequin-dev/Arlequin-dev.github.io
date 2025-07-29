@@ -69,6 +69,12 @@ switch ($metodo) {
                         echo json_encode(['error' => 'No se ha iniciado sesión o falta el email del pendiente']);
                     }
                     break;
+                case 'completarTarea':
+                    if (isset($input['id'])) {
+                        echo json_encode($controlador->completarTarea($input['id']));
+                    } else {
+                        echo json_encode(['error' => 'ID de tarea no proporcionada']);
+                    }
                 default:
                     echo json_encode(['error' => 'Acción PUT no reconocida']);
                     break;

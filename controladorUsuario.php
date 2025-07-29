@@ -57,4 +57,7 @@ class ControladorUsuario {
     public function obtenerTareas($email) {
         return $this->modelo->obtenerTareas($email);
     }
+    public function completarTarea($id) {
+        return $this->modelo->completarTarea($id);
+    }
 }
