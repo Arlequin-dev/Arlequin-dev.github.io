@@ -23,7 +23,7 @@
         </thead>
         <tbody>
     </table>
-    <button id="compT">completar tarea</button>
+    <button id="compT" class="compT">completar tarea</button>
     <script type="module">
         import { obtenerTareas, completarTarea } from './modules/crearTarea.js';
         import { obtenerEmailUsuario } from './modules/obtenerUsuario.js';
@@ -70,7 +70,7 @@
             const email = await obtenerEmailUsuario();
             const tareaId = prompt("Ingrese el ID de la tarea que desea completar:");
             if (tareaId) {
-               completarTarea(id); 
+               completarTarea(tareaId); 
                 alert("Tarea completada exitosamente.");
                 cargarTareas();
         
